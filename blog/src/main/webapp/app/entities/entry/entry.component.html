@@ -1,0 +1,54 @@
+<div>
+    <h2>
+        <span jhiTranslate="blogApp.entry.home.title">Entries</span>
+        <button class="btn btn-primary float-right create-entry" [routerLink]="['/', { outlets: { popup: ['entry-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="blogApp.entry.home.createLabel">
+            Create new Entry
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12 no-padding-right">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'blogApp.entry.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="entries">
+        <div infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+             [infiniteScrollDistance]="0">
+            <div *ngFor="let entry of entries; trackBy: trackId">
+                <h2>{{entry.title}}</h2>
+                <small>Posted on {{entry.date | date: 'short'}} by {{entry.blog.user.login}}</small>
+                <div [innerHTML]="entry.content"></div>
+                <div class="btn-group mb-2 mt-1">
+                    <button type="submit"
+                            [routerLink]="['/', { outlets: { popup: 'entry/'+ entry.id + '/edit'} }]"
+                            replaceUrl="true"
+                            class="btn btn-primary btn-sm">
+                        <span class="fa fa-pencil"></span>
+                        <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                    </button>
+                    <button type="submit"
+                            [routerLink]="['/', { outlets: { popup: 'entry/'+ entry.id + '/delete'} }]"
+                            replaceUrl="true"
+                            class="btn btn-danger btn-sm">
+                        <span class="fa fa-remove"></span>
+                        <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
