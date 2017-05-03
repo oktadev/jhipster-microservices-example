@@ -494,16 +494,59 @@ Create a product entity by running the following command in the `store` director
 yo jhipster:entity product
 ```
 
+Use the following answers for the questions asked:
+
+* Do you want to add a field to your entity? `Yes`
+* What is the name of your field? `name`
+* What is the type of your field? `String`
+* Do you want to add validation rules to your field? `Yes`
+* Which validation rules do you want to add? `Required`
+
+* Do you want to add a field to your entity? `Yes`
+* What is the name of your field? `price`
+* What is the type of your field? `BigDecimal`
+* Do you want to add validation rules to your field? `Yes`
+* Which validation rules do you want to add? `Required`
+
+* Do you want to add a field to your entity? `No`
+
+* Do you want to use a Data Transfer Object (DTO)? `No`
+* Do you want to use separate service class for your business logic? `No`
+* Do you want pagination on your entity? `Yes, with pagination links`
+
+Your terminal should look similar to the following after you've answered all these questions.
+
+![Generating product entity](static/generating-product.png)
+
 ### Generate UI for Product Entity
 
+A microservice only contains the server-side code for the entities it contains. To generate
+an Angular UI for the product, navigate to the `blog` directory and run the same command.
+
+```bash
+yo jhipster:entity product
 ```
-git add .
-git commit -m "Add store microservice"
+
+Use the following answers for the questions asked:
+
+* Do you want to generate this entity from an existing microservice? `Yes`
+* Enter the path to the microservice root directory: `../store`
+* Do you want to update the entity? `Yes`
+
+A visual of these questions and answers is in the screenshot below.
+
+![Generating product entity UI](static/generating-product-ui.png)
+
+Commit your changes to Git.
+
+```
+git commit -a -m "Add product entity"
 ```
 
 ## Build for Production
 
-A JHipster application can be deployed anywhere a Spring Boot application can be deployed.
+A JHipster application can be deployed anywhere a Spring Boot application can be deployed. Its Angular client is
+bundled inside its JAR files
 
 JHipster ships with support for deploying to [Cloud Foundry](https://jhipster.github.io/cloudfoundry/), 
 [Heroku](https://jhipster.github.io/heroku/), [Kubernetes](https://jhipster.github.io/kubernetes/), 
@@ -569,13 +612,37 @@ Add `@WithMockUser` to the `getAllBlogs()` method.
 public void getAllBlogs() throws Exception {
 ```
 
-After fixing this test, you should be able to run `mvn -Pprod package` without any failures.
+After fixing this test, you should be able to run `mvn -Pprod package` without any failures. You might notice that
+this does take quite some time, mostly due to the Webpack build and optimizations. Below is the output from a Mid 2015
+MacBook Pro with 16GB of RAM and JAVA_OPTS set to `-Xmx2048m`.
+
+```bash
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 05:11 min
+[INFO] Finished at: 2017-05-03T08:54:41-06:00
+[INFO] Final Memory: 88M/805M
+[INFO] ------------------------------------------------------------------------
+```
 
 ## Deploy to the Cloud
 
+What good is a microservices architecture if it's not deployed to a PaaS (Platform as a Service)? PaaS providers
+are also known as "the cloud", and allow you to easily deploy and scale microservices as needed. Docker provides
+a mechanism to "package" your applications as an entire bundle. A Docker container includes the operating system and 
+services needed to run your application. Often, Docker containers are used for the individual components of your 
+architecture. For example, you'll have a Docker container for each app, as well as one for PostgreSQL, MongoDB, and
+Elasticsearch.
+
+To complete this section, you'll need to [install Docker](https://docs.docker.com/engine/installation/).
+
+**NOTE:** If you're not on Mac or Windows, you may need to [install Docker Compose](https://docs.docker.com/compose/install/) as well.
+
 ### Docker Compose
 
-You can use Docker Compose to start everything if you don't want to start applications manually with Maven.
+Docker Compose is a tool for defining and running multi-container Docker applications. With Compose, you can create and 
+start all the components of your application with a single command.
 
 1. Make sure Docker is running.
 2. Build Docker images for the `blog` and `store` applications by running the following command in both directories:
