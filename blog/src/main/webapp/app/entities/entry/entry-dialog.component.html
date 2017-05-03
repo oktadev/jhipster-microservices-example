@@ -26,21 +26,8 @@
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="blogApp.entry.content" for="field_content">Content</label>
-            <div>
-                <div *ngIf="entry.content" class="form-text text-danger clearfix">
-                    <span class="pull-left">{{entry.contentContentType}}, {{byteSize(entry.content)}}</span>
-                    <button type="button" (click)="entry.content=null;entry.contentContentType=null;"
-                            class="btn btn-default btn-xs pull-right">
-                        <span class="fa fa-times"></span>
-                    </button>
-                </div>
-                <input type="file" (change)="setFileData($event, entry, 'content', false)" jhiTranslate="entity.action.addblob"/>
-            </div>
-            <input type="hidden" class="form-control" name="content" id="field_content"
-                [(ngModel)]="entry.content"
-            required />
-            <input type="hidden" class="form-control" name="contentContentType" id="field_contentContentType"
-                [(ngModel)]="entry.contentContentType" />
+            <textarea class="form-control" name="content" id="field_content"
+                [(ngModel)]="entry.content" required ></textarea>
             <div [hidden]="!(editForm.controls.content?.dirty && editForm.controls.content?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.content?.errors?.required" jhiTranslate="entity.validation.required">

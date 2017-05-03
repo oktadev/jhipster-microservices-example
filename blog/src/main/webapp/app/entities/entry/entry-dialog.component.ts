@@ -38,9 +38,6 @@ export class EntryDialogComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (!this.entry.date) {
-            this.entry.date = new Date();
-        }
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.blogService.query().subscribe(
