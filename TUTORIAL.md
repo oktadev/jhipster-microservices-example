@@ -715,7 +715,7 @@ these look like.
 </tr>
 </table>
 
-To save your changes for Kubernetes, commit your changes to Git.
+To save your changes for Docker Compose, commit your changes to Git.
 
 ```
 git commit -a -m "Add Docker Compose"
@@ -791,6 +791,12 @@ To remove all deployed containers, run the following command:
     kubectl delete deployment --all
     
 To stop Minikube, run `minikube stop`.
+
+To save your changes for Kubernetes, commit your changes to Git from the top-level directory.
+
+```
+git commit -a -m "Kubernetes"
+```
 
 ### Deploy to Google Cloud
 
