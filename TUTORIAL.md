@@ -878,4 +878,5 @@ You might also find the following resources interesting:
 
 * [Doing Microservices with JHipster](https://jhipster.github.io/microservices-architecture/)
 * [Building a Microservices Architecture for Microbrews](TBD on Okta Dev Blog)
+* [Bootstrapping Your Microservices Architecture with JHipster and Spring](https://blog.heroku.com/bootstrapping_your_microservices_architecture_with_jhipster_and_spring)
 * [Microservice Resources from Chris Richardson](http://microservices.io/resources/index.html)
