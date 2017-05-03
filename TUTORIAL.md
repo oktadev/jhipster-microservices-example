@@ -472,7 +472,7 @@ MongoDB for its database.
 * Service Discovery and Configuration: `JHipster Registry`
 * Type of database: `MongoDB`
 * Maven or Gradle: `Maven`
-* Other technologies: `Elasticsearch`
+* Other technologies: `None`
 * Internationalization support: `Yes`
 * Native language: `English`
 * Additional languages: `Spanish`
@@ -480,9 +480,9 @@ MongoDB for its database.
 
 ![Generating the microservice](static/generating-store.png)
 
-Commit all your changes to Git.
-
 ### Generate Product Entity
+
+
 
 ### Generate UI for Product Entity
 
