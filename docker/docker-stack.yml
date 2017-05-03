@@ -1,0 +1,69 @@
+networks: {}
+services:
+  blog-app:
+    environment:
+      EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE: http://admin:admin@jhipster-registry:8761/eureka
+      JHIPSTER_REGISTRY_PASSWORD: admin
+      JHIPSTER_SLEEP: '30'
+      SPRING_CLOUD_CONFIG_URI: http://admin:admin@jhipster-registry:8761/config
+      SPRING_DATASOURCE_URL: jdbc:postgresql://blog-postgresql:5432/blog
+      SPRING_DATA_CASSANDRA_CONTACTPOINTS: blog-cassandra
+      SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES: blog-elasticsearch:9300
+      SPRING_PROFILES_ACTIVE: prod,swagger
+    image: mraible/blog:latest
+    ports:
+    - 8080:8080
+  blog-elasticsearch:
+    image: elasticsearch:2.4.1
+  blog-postgresql:
+    environment:
+      POSTGRES_PASSWORD: ''
+      POSTGRES_USER: blog
+    image: postgres:9.6.2
+  jhipster-console:
+    image: jhipster/jhipster-console:v2.0.1
+    ports:
+    - 5601:5601
+  jhipster-elasticsearch:
+    image: jhipster/jhipster-elasticsearch:v2.0.1
+    ports:
+    - 9200:9200
+    - 9300:9300
+  jhipster-logstash:
+    command: logstash -f /conf/logstash.conf
+    image: jhipster/jhipster-logstash:v2.0.1
+    ports:
+    - 5000:5000/udp
+  jhipster-registry:
+    environment:
+      JHIPSTER_LOGGING_LOGSTASH_ENABLED: 'true'
+      JHIPSTER_LOGGING_LOGSTASH_HOST: jhipster-logstash
+      JHIPSTER_METRICS_LOGS_ENABLED: 'true'
+      JHIPSTER_METRICS_LOGS_REPORTFREQUENCY: '60'
+      SECURITY_USER_PASSWORD: admin
+      SPRING_PROFILES_ACTIVE: dev,native
+    image: jhipster/jhipster-registry:v2.6.0
+    ports:
+    - 8761:8761
+  jhipster-zipkin:
+    environment:
+      ES_HOSTS: http://jhipster-elasticsearch:9200
+      ZIPKIN_UI_LOGS_URL: http://localhost:5601/app/kibana#/dashboard/logs-dashboard?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-1h,mode:quick,to:now))&_a=(filters:!(),options:(darkTheme:!f),panels:!((col:1,id:logs-levels,panelIndex:2,row:1,size_x:6,size_y:3,type:visualization),(col:7,columns:!(stack_trace),id:Stacktraces,panelIndex:7,row:1,size_x:4,size_y:3,sort:!('@timestamp',desc),type:search),(col:11,id:Log-forwarding-instructions,panelIndex:8,row:1,size_x:2,size_y:3,type:visualization),(col:1,columns:!(app_name,level,message),id:All-logs,panelIndex:9,row:4,size_x:12,size_y:7,sort:!('@timestamp',asc),type:search)),query:(query_string:(analyze_wildcard:!t,query:'{traceId}')),title:logs-dashboard,uiState:())
+    image: jhipster/jhipster-zipkin:v2.0.1
+    ports:
+    - 9411:9411
+  store-app:
+    environment:
+      EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE: http://admin:admin@jhipster-registry:8761/eureka
+      JHIPSTER_REGISTRY_PASSWORD: admin
+      JHIPSTER_SLEEP: '10'
+      SPRING_CLOUD_CONFIG_URI: http://admin:admin@jhipster-registry:8761/config
+      SPRING_DATA_MONGODB_DATABASE: store
+      SPRING_DATA_MONGODB_URI: mongodb://store-mongodb:27017
+      SPRING_PROFILES_ACTIVE: prod,swagger
+    image: mraible/store:latest
+  store-mongodb:
+    image: mongo:3.2.10
+version: '3.0'
+volumes: {}
+

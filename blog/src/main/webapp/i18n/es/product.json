@@ -1,0 +1,27 @@
+{
+    "blogApp": {
+        "product" : {
+            "home": {
+                "title": "Products",
+                "createLabel": "Crear nuevo Product",
+                "createOrEditLabel": "Crear o editar Product",
+                "search": "Search for Product"
+            },
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Product {{ id }}?"
+            },
+            "detail": {
+                "title": "Product"
+            },
+            "name": "Name",
+            "price": "Price"
+        }
+    },
+    "storeApp": {
+        "product" : {
+            "created": "Un nuevo Product ha sido creado con el identificador {{ param }}",
+            "updated": "Un Product ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Product ha sido eliminado con el identificador {{ param }}"
+        }
+    }
+}

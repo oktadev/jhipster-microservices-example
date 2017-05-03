@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: blog
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: blog
+    spec:
+      containers:
+      - name: blog-app
+        image: mraible/blog
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: prod
+        - name: SPRING_CLOUD_CONFIG_URI
+          value: http://admin:${jhipster.registry.password}@jhipster-registry.default.svc.cluster.local:8761/config
+        - name: JHIPSTER_REGISTRY_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: registry-secret
+              key: registry-admin-password
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://blog-postgresql.default.svc.cluster.local:5432/blog
+        - name: SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES
+          value: blog-elasticsearch.default.svc.cluster.local:9300
+        ports:
+        - containerPort: 8080

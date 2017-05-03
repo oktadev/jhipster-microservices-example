@@ -2,7 +2,8 @@
   "generator-jhipster": {
     "promptValues": {
       "packageName": "org.jhipster.blog",
-      "nativeLanguage": "en"
+      "nativeLanguage": "en",
+      "microservicePath": "../store"
     },
     "jhipsterVersion": "4.3.0",
     "baseName": "blog",
