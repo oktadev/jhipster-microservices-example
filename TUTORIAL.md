@@ -65,8 +65,10 @@ To see what's happening inside your applications, you can use the [JHipster Cons
 a monitoring tool based on the [ELK Stack](https://www.elastic.co/products). I'll cover this tool in the Docker Compose 
 section.
 
-To create a project, open a terminal window and create a `jhipster-microservices-example` directory. Then create a `blog` 
-directory for the gateway application. 
+## Create an API Gateway
+
+To create a microservices project, open a terminal window and create a `jhipster-microservices-example` directory. Then 
+create a `blog` directory for the gateway application. 
 
 ```bash
 mkdir -p jhipster-microservices-example/blog
@@ -436,15 +438,24 @@ git commit -m "UI enhancements"
 
 ## Create a Microservice
 
-## Deploy to the Cloud
+Commit all your changes to Git.
+
+### Generate Product Entity
+
+### Generate UI for Product Entity
+
+```
+git add .
+git commit -m "Add store microservice"
+```
+
+## Build for Production
 
 A JHipster application can be deployed anywhere a Spring Boot application can be deployed.
 
 JHipster ships with support for deploying to [Cloud Foundry](https://jhipster.github.io/cloudfoundry/), 
 [Heroku](https://jhipster.github.io/heroku/), [Kubernetes](https://jhipster.github.io/kubernetes/), 
 [AWS](https://jhipster.github.io/aws/), and [AWS with Boxfuse](https://jhipster.github.io/boxfuse/). 
-
-I'll show you how to deploy to Google Cloud with Kubernetes, as well as AWS with Docker Swarm.
 
 When you prepare a JHipster application for production, it's recommended to use the pre-configured "`production`" profile. 
 With Maven, you can package your application by specifying the `prod` profile when building.
@@ -478,15 +489,14 @@ org.springframework.dao.InvalidDataAccessApiUsageException: Authentication objec
 nested exception is java.lang.IllegalArgumentException: Authentication object cannot be null
 ```
 
-To fix this, you can use Spring Security Test's [`@WithMockUser`](http://docs.spring.io/spring-security/site/docs/current/reference/html/test-method.html#test-method-withmockuser). 
-Open `BlogResourceIntTest.java` and inject  `UserRepository` as a dependency.
+To fix this, you can use Spring Security Test's [`@WithMockUser`](http://docs.spring.io/spring-security/site/docs/current/reference/html/test-method.html#test-method-withmockuser). Open `BlogResourceIntTest.java` and inject  `UserRepository` as a dependency.
 
 ```java
 @Autowired
 private UserRepository userRepository;
 ```
 
-Change the `createEntity()` method so its not `static` and uses the `userRepository` to set a user on the blog entity.
+Change the `createEntity()` method so it's not `static` and uses the `userRepository` to set a user on the blog entity.
 
 ```java
 public Blog createEntity(EntityManager em) {
@@ -509,19 +519,44 @@ public void getAllBlogs() throws Exception {
 
 After fixing this test, you should be able to run `mvn -Pprod package` without any failures.
 
+## Deploy to the Cloud
 
+### Docker Compose
+
+You can use Docker Compose to start everything if you don't want to start applications manually with Maven.
+
+1. Make sure Docker is running.
+2. Build Docker images for the `blog` and `store` applications by running the following command in both directories:
+
+    ```
+    ./mvnw package -Pprod docker:build
+    ```
+    
+3. Using your terminal, navigate to the root directory of your project, and create a `docker` directory. Then run the 
+following command in it.
+
+    ```
+    yo jhipster:docker-compose
+    ````
+    
+    * Select `microservice` for application type
+    * Use `../` for the root directory of your microservices
+    * Select both `blog` and `store` applications when prompted
+    * **Don't** select the clustered database option
+    * Setup monitoring using JHipster Console with ELK/Zipkin
+    * Select the default value for the JHipster Registry's admin password
+    
+4. Open Kitematic to view the Blog, Store and JHipster Console.
 
 ### Kubernetes 
 <!-- Todo: document steps for Google Cloud -->
 
 To save your changes for Kubernetes, commit your changes to Git.
 
-----
+```
 git add .
-git commit -m "Deploy to Heroku"
-----
-
-### Docker Compose
+git commit -m "Add Kubernetes"
+```
 
 ## Learn More
 

@@ -33,8 +33,14 @@ You should be able to see the `blog` app at <http://localhost:8080> and edit pro
 
 You can use Docker Compose to start everything if you don't want to start applications manually with Maven.
 
-1. Start Docker.
-2. Open a terminal, navigate to the `docker` directory of this project, and run the following command:
+1. Make sure Docker is running.
+2. Build Docker images for the `blog` and `store` applications by running the following command in both directories:
+
+    ```
+    ./mvnw package -Pprod docker:build
+    ```
+    
+3. Open a terminal, navigate to the `docker` directory of this project, and run the following command:
 
     ```
     docker-compose up
@@ -42,7 +48,7 @@ You can use Docker Compose to start everything if you don't want to start applic
     
     TIP: Add `-d` to the end of the command above if you want it to run as a daemon.
     
-3. Start Kitematic and view the Blog, Store and JHipster Console.
+4. Open Kitematic to view the Blog, Store and JHipster Console.
 
 To create activity in JHipster Console's charts, you run the Gatling tests in the `blog` and `store` projects.
 
