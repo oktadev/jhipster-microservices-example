@@ -1,6 +1,6 @@
 # Develop and Deploy Microservices with JHipster
 
-> Learn how to develop a microservice architecture with JHipster, Spring Boot, Angular, and MongoDB and deploy it all to the cloud using Kubernetes and Docker Swarm.
+> Learn how to develop a microservice architecture with JHipster, Spring Boot, Angular, and MongoDB and deploy it all to the cloud using Kubernetes and Docker.
 
 This tutorial shows you how to build a microservices architecture with [JHipster 4.3.0](https://jhipster.github.io/2017/04/13/jhipster-release-4.3.0.html). 
 You'll generate a gateway (powered by Netflix Zuul and the JHipster Gateway), a microservice (that talks to MongoDB), and use Docker Compose to make
