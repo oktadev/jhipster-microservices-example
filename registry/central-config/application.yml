@@ -1,0 +1,15 @@
+# ===================================================================
+# JHipster Sample Spring Cloud Config.
+# ===================================================================
+
+# Property used on app startup to check the config server status
+configserver:
+    name: JHipster Registry config server
+    status: Connected to the JHipster Registry config server!
+
+# Default JWT secret token (to be changed in production!)
+jhipster:
+    security:
+        authentication:
+            jwt:
+                secret: my-secret-token-to-change-in-production
