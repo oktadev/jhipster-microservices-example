@@ -48,34 +48,42 @@ To find what's running on a port on OS, use `sudo lsof -i :9092 # checks port 90
 3. Start Minikube using `minikube start`.
 4. To be able to work with the docker daemon, run the `docker-env` command in your shell:
 
+    ```
     eval $(minikube docker-env)
+    ```
 
 5. Create Docker images of the `blog` and `store` applications:
 
-  * Maven: `./mvnw package -Pprod docker:build`
-  * Gradle: `./gradlew bootRepackage -Pprod buildDocker`
+    * Maven: `./mvnw package -Pprod docker:build`
+    * Gradle: `./gradlew bootRepackage -Pprod buildDocker`
   
 6. Modify `kubernetes/blog/blog-deployment.yml` to add `imagePullPolicy: IfNotPresent`.
 
-  image: blog
-  imagePullPolicy: IfNotPresent
+    ```
+    image: blog
+    imagePullPolicy: IfNotPresent
+    ```
 
 7. Modify `kubernetes/store/store-deployment.yml` to add `imagePullPolicy: IfNotPresent`.
 
-  image: store
-  imagePullPolicy: IfNotPresent
-
+    ```
+    image: store
+    imagePullPolicy: IfNotPresent
+    ```
+    
 8. Run the following commands in the `kubernetes` directory to deploy to Minikube. Run `minikube dashboard` to see the deployed containers.
 
-  kubectl apply -f registry
-  kubectl apply -f blog
-  kubectl apply -f store
+    ```
+    kubectl apply -f registry
+    kubectl apply -f blog
+    kubectl apply -f store
+    ```
 
 9. Run `minikube service blog` to view the blog application. You can also run `kubectl get po -o wide --watch` to see the status of each pod.
 
 To remove all deployed containers, run the following command:
 
-  kubectl delete deployment --all
+    kubectl delete deployment --all
 
 If you run `minikube delete` and have trouble running `minikube start` afterward, run `rm -rf ~/.minikube`. See https://github.com/kubernetes/minikube/issues/290[this issue] for more information.
 
@@ -84,21 +92,27 @@ If you run `minikube delete` and have trouble running `minikube start` afterward
 1. Create a Google Cloud project at [console.cloud.google.com](https://console.cloud.google.com/).
 2. Install [Google Cloud SDK](https://cloud.google.com/sdk/) and set project using:
   
-  gcloud config set project $project-name.
+       gcloud config set project $project-name.
 
 3. Create a cluster:
   
-  gcloud container clusters create demo --machinetype=n1-standard-2 --scopes cloud-platform
+       gcloud container clusters create demo --machinetype=n1-standard-2 --scopes cloud-platform
 
 4. Run `kubectl` commands to deploy.
 
+    ```
+    kubectl apply -f registry
+    kubectl apply -f blog
+    kubectl apply -f store
+    ```
+
 5. Use port-forwarding to see the registry app locally.
 
-  kubectl port-forward jhipster-registry-0 8761:8761
+       kubectl port-forward jhipster-registry-0 8761:8761
 
 6. Scale microservice apps as needed:
 
-  kubectl scale deployment store —replicas=3
+       kubectl scale deployment store —replicas=3
     
 To see a screencast of this process, [watch this YouTube video](https://youtu.be/dgVQOYEwleA).
 
