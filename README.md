@@ -7,13 +7,27 @@ To run this app, you'll need to install Java 8, Maven, and [Docker](https://docs
 **NOTE:** If you're not on Mac or Windows, you may need to [install Docker Compose](https://docs.docker.com/compose/install/) as well.
 
 1. Start the registry using `mvn` in the `registry` directory.
-2. Start the blog app using `mvn` in the `blog` directory.
+2. Install dependencies in the `blog` directory, build the UI, and run the Spring Boot app.
+ 
+    ```
+    yarn && yarn webpack:dev
+    mvn
+    ``` 
+    
 3. Start MongoDB using Docker Compose in the `store` directory.
     
     ```bash
     docker-compose -f src/main/docker/mongodb.yml up
     ```
-4. Start the store using `mvn` in the `store` directory.
+    
+4. Install dependencies in the `store` directory, build the UI, and run the Spring Boot app.
+ 
+    ```
+    yarn && yarn webpack:dev
+    mvn
+    ``` 
+    
+You should be able to see the `blog` app at <http://localhost:8080> and edit products (from the `store` app)
 
 ## Docker Compose
 
@@ -92,11 +106,11 @@ If you run `minikube delete` and have trouble running `minikube start` afterward
 1. Create a Google Cloud project at [console.cloud.google.com](https://console.cloud.google.com/).
 2. Install [Google Cloud SDK](https://cloud.google.com/sdk/) and set project using:
   
-       gcloud config set project $project-name.
+       gcloud config set project <project-name>
 
 3. Create a cluster:
   
-       gcloud container clusters create demo --machinetype=n1-standard-2 --scopes cloud-platform
+       gcloud container clusters create <cluster-name> --machinetype=n1-standard-2 --scopes cloud-platform
 
 4. Run `kubectl` commands to deploy.
 

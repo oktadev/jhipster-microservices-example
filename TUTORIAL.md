@@ -4,7 +4,7 @@
 
 This tutorial shows you how to build a microservices architecture with [JHipster 4.3.0](https://jhipster.github.io/2017/04/13/jhipster-release-4.3.0.html). 
 You'll generate a gateway (powered by Netflix Zuul and the JHipster Gateway), a microservice (that talks to MongoDB), and use Docker Compose to make
-sure it all runs locally. Then you'll deploy it to Google Cloud using Kubernetes and AWS using Docker Swarm.
+sure it all runs locally. Then you'll deploy it to Minikube and Google Cloud using Kubernetes.
 
 ## What is JHipster?
 
@@ -28,11 +28,6 @@ team calls the "`Yeoman workflow`". This is an opinionated client-side stack of 
 build beautiful web applications. It takes care of providing everything needed to get working without the normal pains 
 associated with a manual setup.
 
-JHipster 4 is the same JHipster many developers know and love, with a couple bright and shiny new features: namely Angular 
-and Bootstrap 4 support.
-
-NOTE: When I say "AngularJS", I mean Angular 1.x. "Angular" is the forward-looking name for Angular 2 and beyond.
-
 ## Install JHipster 4
 
 The [Installing JHipster](http://jhipster.github.io/installation/) instructions show you all the tools you'll need to 
@@ -44,22 +39,50 @@ use a released version of JHipster.
 4. Install Yarn using the [Yarn installation instructions](https://yarnpkg.com/en/docs/install).
 5. Run the following command to install [Yeoman](http://yeoman.io/).
 
+    ```
     yarn global add yo
+    ```
 
 6. Run the following command to install JHipster.
 
+    ```
     yarn global add generator-jhipster
+    ```
 
-## Create a Gateway Project
+## Microservices with JHipster 
 
-To create a project, open a terminal window and create a directory. For example, `mdkdir blog`. Navigate into the 
-directory and run `yo jhipster`. You'll be asked a number of questions about the type of application you want to 
-create and what features you'd like to include. The screenshot below shows the choices I made to create a simple 
-blog application with Angular.
+To build a microservices architecture with JHipster, you'll need to generate two applications, and clone another.
+
+* Generate a gateway
+* Generate a microservice
+* Clone the JHipster Registry
+
+You can see how these components fit in the diagram below.
+
+![JHipster Microservices Architecture](static/jhipster-microservices-architecture.png)
+
+To see what's happening inside your applications, you can use the [JHipster Console](https://jhipster.github.io/monitoring/#jhipster-console), 
+a monitoring tool based on the [ELK Stack](https://www.elastic.co/products). I'll cover this tool in the Docker Compose 
+section.
+
+To create a project, open a terminal window and create a `jhipster-microservices-example` directory. Then create a `blog` 
+directory for the gateway application. 
+
+```bash
+mkdir -p jhipster-microservices-example/blog
+```
+
+In JHipster terms, a **gateway** is a normal JHipster application. This means you can develop 
+it like a monolith, but it also acts as the entrance to your microservices. More specifically, it provides HTTP 
+routing and load balancing, quality of service, security, and API documentation for all microservices.
+
+Navigate into the `blog` directory and run `yo jhipster`. You'll be asked a number of questions about the type of 
+application you want to generate and what features you'd like to include. The screenshot below shows the choices I made
+when creating the `blog` application.
 
 ![Generating the gateway](static/generating-blog.png)
 
-If you'd like to create the same application I did, you can place the following `.yo-rc.json` file in an empty directory 
+If you'd like to use the same settings I did, you can place the following `.yo-rc.json` file in the `blog` directory 
 and run `yo jhipster` in it. You won't be prompted to answer any questions because the answers are already in `.yo-rc.json`.
 
 ```json
@@ -118,14 +141,12 @@ git clone git@github.com:jhipster/jhipster-registry.git registry
 cd registry && mvn
 ```
 
-The JHipster Registry is built on Spring Cloud Netflix and Spring Cloud Config. Patterns provided by Spring Cloud Netflix 
-include Service Discovery (Eureka),  Circuit Breaker (Hystrix), Intelligent Routing (Zuul), and Client Side Load Balancing 
-(Ribbon). JHipster Registry leverages these patterns, as you can see in the diagram below.
+The [JHipster Registry](https://jhipster.github.io/microservices-architecture/#jhipster-registry) is built on Spring 
+Cloud Netflix and Spring Cloud Config. Patterns provided by Spring Cloud Netflix include Service Discovery (Eureka),  
+Circuit Breaker (Hystrix), Intelligent Routing (Zuul), and Client Side Load Balancing (Ribbon). 
 
-![JHipster Microservices Architecture](static/jhipster-microservices-architecture.png)
-
-Run `./mvnw` to start the blog application and navigate to <http://localhost:8080> in your favorite browser. The first thing 
-you'll notice is a dapper-looking fellow explaining how you can sign in or register.
+Run `./mvnw` to start the blog application and navigate to <http://localhost:8080> in your favorite browser. The first 
+thing you'll notice is a dapper-looking fellow explaining how you can sign in or register.
 
 ![Default homepage](static/default-homepage.png)
 
@@ -155,7 +176,7 @@ At this point, it's a good idea to check your project into Git so you can easily
 ```bash
 git init
 git add .
-git commit -m "Project created"
+git commit -m "Gateway created"
 ```
 
 ### Generate Entities
@@ -170,12 +191,12 @@ For each entity you want to create, you will need:
 * an Angular model, state, component, dialog components, service; and
 * several HTML pages for each component.
 
-In addition, you should have integration tests to verify that everything works and performance tests to verify that it runs fast. 
-In an ideal world, you'd also have unit tests and integration tests for your Angular code.
+In addition, you should have integration tests to verify that everything works and performance tests to verify that it 
+runs fast. In an ideal world, you'd also have unit tests and integration tests for your Angular code.
 
-The good news is JHipster can generate all of this code for you, including integration tests and performance tests. In addition, 
-if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys), and the 
-TypeScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
+The good news is JHipster can generate all of this code for you, including integration tests and performance tests. In 
+addition, if you have entities with relationships, it will generate the necessary schema to support them (with foreign 
+keys), and the TypeScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
 
 JHipster supports several methods of code generation. The first uses its [entity sub-generator](https://jhipster.github.io/creating-an-entity/). 
 The entity sub-generator is a command-line tool that prompts you with questions which you answer. 
@@ -220,16 +241,35 @@ relationship ManyToMany {
 paginate Entry, Tag with infinite-scroll
 ```
 
-Run the following command (in the `blog` directory) to import this file and generate entities, tests and a UI.
+Run the following command (in the `blog` directory) to import this file. Running this command will generate entities, tests, and a UI.
 
 ```bash
 yo jhipster:import-jdl ~/Downloads/jhipster-jdl.jh
 ```
 
-You'll be prompted to overwrite `src/main/resources/config/liquibase/master.xml`. Type `a` to overwrite this file, as well 
-as others.
+You'll be prompted to overwrite `src/main/resources/config/liquibase/master.xml`. Type `a` to overwrite this file, as 
+well as others.
 
-Restart the application with `/.mvnw` and run `yarn start` to view the UI for the generated entities. Create a couple 
+**WARNING:** There is [a bug](https://github.com/jhipster/generator-jhipster/issues/5634) in JHipster 4.3.0 where it 
+generates a file upload field instead of a `<textarea>` for the `entry.content` field. To fix this, edit 
+`.jhipster/Entry.json` and add `"fieldTypeBlobContent": "text"` to the  properties for the `content` field. After your 
+changes, it should look as follows:
+
+```json
+{
+    "fieldName": "content",
+    "fieldType": "byte[]",
+    "fieldTypeBlobContent": "text",
+    "fieldValidateRules": [
+        "required"
+    ]
+},
+```
+
+Re-generate this entity by running `yo jhipster:entity entry`. If you're using a version greater than 4.3.0, this issue
+is likely fixed.
+
+Start the application with `/.mvnw` and run `yarn start` to view the UI for the generated entities. Create a couple 
 blogs for the existing `admin` and `user` users, as well as a few blog entries.
 
 ![Blogs](static/blogs.png)
@@ -356,12 +396,13 @@ To make the list of entries look like a blog, replace `<div class="table-respons
 
 ```html
 <div class="table-responsive" *ngIf="entries">
-    <div infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+    <div infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+         [infiniteScrollDistance]="0">
         <div *ngFor="let entry of entries; trackBy: trackId">
             <h2>{{entry.title}}</h2>
             <small>Posted on {{entry.date | date: 'short'}} by {{entry.blog.user.login}}</small>
             <div [innerHTML]="entry.content"></div>
-            <div class="btn-group mb-2 mt-1">
+            <div class="btn-group mb-4 mt-1">
                 <button type="submit"
                         [routerLink]="['/', { outlets: { popup: 'entry/'+ entry.id + '/edit'} }]"
                         replaceUrl="true"

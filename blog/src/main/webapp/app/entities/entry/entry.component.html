@@ -32,7 +32,7 @@
                 <h2>{{entry.title}}</h2>
                 <small>Posted on {{entry.date | date: 'short'}} by {{entry.blog.user.login}}</small>
                 <div [innerHTML]="entry.content"></div>
-                <div class="btn-group mb-2 mt-1">
+                <div class="btn-group mb-4 mt-1">
                     <button type="submit"
                             [routerLink]="['/', { outlets: { popup: 'entry/'+ entry.id + '/edit'} }]"
                             replaceUrl="true"
