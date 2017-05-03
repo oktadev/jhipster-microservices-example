@@ -480,9 +480,19 @@ MongoDB for its database.
 
 ![Generating the microservice](static/generating-store.png)
 
+Commit your changes to Git. It's always a good idea to do this before generating entities.
+
+```bash
+git commit -a -m "Generated store application"
+```
+
 ### Generate Product Entity
 
+Create a product entity by running the following command in the `store` directory.
 
+```bash
+yo jhipster:entity product
+```
 
 ### Generate UI for Product Entity
 
