@@ -29,7 +29,7 @@ To run this app, you'll need to install Java 8, Maven, and [Docker](https://docs
     
 You should be able to see the `blog` app at <http://localhost:8080> and edit products (from the `store` app)
 
-## Docker Compose
+## Run with Docker Compose
 
 You can use Docker Compose to start everything if you don't want to start applications manually with Maven.
 
@@ -66,7 +66,7 @@ docker rm $(docker ps -a -q)
 
 To find what's running on a port on macOS, use `sudo lsof -i :9092 # checks port 9092`.
 
-## Kubernetes
+## Run with Kubernetes and Minikube
 
 1. Install [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/), [VirtualBox](https://www.virtualbox.org/wiki/Downloads), and [Minikube](https://github.com/kubernetes/minikube/releases).
 2. Start Minikube using `minikube start`.
@@ -81,22 +81,8 @@ To find what's running on a port on macOS, use `sudo lsof -i :9092 # checks port
    ```bash
    mvn package -Pprod docker:build
    ```
-  
-5. Modify `kubernetes/blog/blog-deployment.yml` to add `imagePullPolicy: IfNotPresent`.
-
-    ```
-    image: blog
-    imagePullPolicy: IfNotPresent
-    ```
-
-6. Modify `kubernetes/store/store-deployment.yml` to add `imagePullPolicy: IfNotPresent`.
-
-    ```
-    image: store
-    imagePullPolicy: IfNotPresent
-    ```
     
-7. Run the following commands in the `kubernetes` directory to deploy to Minikube. 
+5. Run the following commands in the `kubernetes` directory to deploy to Minikube. 
 
     ```
     kubectl apply -f registry
@@ -107,7 +93,7 @@ To find what's running on a port on macOS, use `sudo lsof -i :9092 # checks port
     The deployment process can take several minutes to complete. Run `minikube dashboard` to see the deployed containers.
     You can also run `kubectl get po -o wide --watch` to see the status of each pod.
 
-8. Run `minikube service blog` to view the blog application. You should be able to login and add blogs, entries, and products.
+6. Run `minikube service blog` to view the blog application. You should be able to login and add blogs, entries, and products.
 
 To remove all deployed containers, run the following command:
 
