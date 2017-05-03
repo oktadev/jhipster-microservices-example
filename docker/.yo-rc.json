@@ -9,6 +9,6 @@
     "monitoring": "elk",
     "serviceDiscoveryType": "eureka",
     "adminPassword": "admin",
-    "jwtSecretKey": "b20ce546de0481da90092bc03f3f141221bf6469"
+    "jwtSecretKey": "a48640aac13fbde86c67cf3177920bc0c1f7f8d9"
   }
 }
