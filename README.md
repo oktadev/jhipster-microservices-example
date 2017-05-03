@@ -34,23 +34,28 @@ You should be able to see the `blog` app at <http://localhost:8080> and edit pro
 You can use Docker Compose to start everything if you don't want to start applications manually with Maven.
 
 1. Make sure Docker is running.
-2. Build Docker images for the `blog` and `store` applications by running the following command in both directories:
+2. Build Docker images for the `blog` and `store` applications by running the following command in both directories.
 
     ```
-    ./mvnw package -Pprod docker:build
+    mvn package -Pprod docker:build
     ```
     
-3. Open a terminal, navigate to the `docker` directory of this project, and run the following command:
+3. Open a terminal, navigate to the `docker` directory of this project, and run the following command. If you have a lot
+of RAM on your machine, you might want to adjust Docker's default setting (2 GB).
 
     ```
-    docker-compose up
+    docker-compose up -d
     ````
     
-    TIP: Add `-d` to the end of the command above if you want it to run as a daemon.
+    TIP: Remove `-d` from the end of the command above if you want to see logs from all containers in the current window.
     
-4. Open Kitematic to view the Blog, Store and JHipster Console.
+4. Use [Kitematic](https://kitematic.com/) to view the ports and logs for the services deployed.
 
 To create activity in JHipster Console's charts, you run the Gatling tests in the `blog` and `store` projects.
+
+```bash
+mvn gatling:execute
+```
 
 To remove all Docker containers, run the following commands or do it manually using Kitematic.
 
@@ -59,39 +64,39 @@ docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 ```
 
-To find what's running on a port on OS, use `sudo lsof -i :9092 # checks port 9092`.
+To find what's running on a port on macOS, use `sudo lsof -i :9092 # checks port 9092`.
 
 ## Kubernetes
 
-1. Install [Docker](https://docs.docker.com/engine/installation/) and [kubectl](http://kubernetes.io/docs/user-guide/prereqs/).
-2. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and [Minikube](https://github.com/kubernetes/minikube/releases).
-3. Start Minikube using `minikube start`.
-4. To be able to work with the docker daemon, run the `docker-env` command in your shell:
+1. Install [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/) and [Minikube](https://github.com/kubernetes/minikube/releases).
+2. Start Minikube using `minikube start`.
+3. To be able to work with the docker daemon, make sure Docker is running, then run the following command in your terminal:
 
-    ```
+    ```bash
     eval $(minikube docker-env)
     ```
 
-5. Create Docker images of the `blog` and `store` applications:
+4. Create Docker images of the `blog` and `store` applications:
 
-    * Maven: `./mvnw package -Pprod docker:build`
-    * Gradle: `./gradlew bootRepackage -Pprod buildDocker`
+   ```bash
+   mvn package -Pprod docker:build
+   ```
   
-6. Modify `kubernetes/blog/blog-deployment.yml` to add `imagePullPolicy: IfNotPresent`.
+5. Modify `kubernetes/blog/blog-deployment.yml` to add `imagePullPolicy: IfNotPresent`.
 
     ```
     image: blog
     imagePullPolicy: IfNotPresent
     ```
 
-7. Modify `kubernetes/store/store-deployment.yml` to add `imagePullPolicy: IfNotPresent`.
+6. Modify `kubernetes/store/store-deployment.yml` to add `imagePullPolicy: IfNotPresent`.
 
     ```
     image: store
     imagePullPolicy: IfNotPresent
     ```
     
-8. Run the following commands in the `kubernetes` directory to deploy to Minikube. Run `minikube dashboard` to see the deployed containers.
+7. Run the following commands in the `kubernetes` directory to deploy to Minikube. Run `minikube dashboard` to see the deployed containers.
 
     ```
     kubectl apply -f registry

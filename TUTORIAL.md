@@ -6,6 +6,8 @@ This tutorial shows you how to build a microservices architecture with [JHipster
 You'll generate a gateway (powered by Netflix Zuul and the JHipster Gateway), a microservice (that talks to MongoDB), and use Docker Compose to make
 sure it all runs locally. Then you'll deploy it to Minikube and Google Cloud using Kubernetes.
 
+{:toc}
+
 ## What is JHipster?
 
 JHipster is one of those open-source projects you stumble upon and immediately think, "`Of course!`" It combines three 
@@ -543,6 +545,20 @@ Commit your changes to Git.
 git commit -a -m "Add product entity"
 ```
 
+At this point, you should be able to verify everything works by starting the registry, blog, store, and MongoDB.
+You can run MongoDB using Docker Compose and the following command in the `store` directory.
+
+```bash
+docker-compose -f src/main/docker/mongodb.yml up
+```
+
+The [Docker Compose](#docker-compose) section shows how you can run all your services using Docker.
+
+Navigate to `http://localhost:8080`, login with admin/admin, and go to Entities > Product. You should be able to
+add a product and see that it has a MongoDB identifier.
+
+![Add Product](static/add-product.png)
+
 ## Build for Production
 
 A JHipster application can be deployed anywhere a Spring Boot application can be deployed. Its Angular client is
@@ -564,7 +580,7 @@ The production profile is used to build an optimized JavaScript client. You can 
 and monitoring via [Metrics](https://github.com/dropwizard/metrics). If you have a [Graphite](http://graphite.wikidot.com/) 
 server configured in your `application-prod.yaml` file, your application will automatically send metrics data to it.
 
-When you run this command, you'll likely get a test failure.
+When you run this command in the `blog` application, you'll likely get a test failure.
 
 ```
 Results :
@@ -639,6 +655,7 @@ To complete this section, you'll need to [install Docker](https://docs.docker.co
 
 **NOTE:** If you're not on Mac or Windows, you may need to [install Docker Compose](https://docs.docker.com/compose/install/) as well.
 
+<a name="docker-compose"></a>
 ### Docker Compose
 
 Docker Compose is a tool for defining and running multi-container Docker applications. With Compose, you can create and 
@@ -648,7 +665,7 @@ start all the components of your application with a single command.
 2. Build Docker images for the `blog` and `store` applications by running the following command in both directories:
 
     ```
-    ./mvnw package -Pprod docker:build
+    mvn package -Pprod docker:build
     ```
     
 3. Using your terminal, navigate to the root directory of your project, and create a `docker` directory. Then run the 
@@ -658,24 +675,123 @@ following command in it.
     yo jhipster:docker-compose
     ````
     
-    * Select `microservice` for application type
-    * Use `../` for the root directory of your microservices
-    * Select both `blog` and `store` applications when prompted
-    * **Don't** select the clustered database option
-    * Setup monitoring using JHipster Console with ELK/Zipkin
-    * Select the default value for the JHipster Registry's admin password
+    * Application type: `Microservice application`
+    * Root directory of your microservices: `../`
+    * Applications to include: `blog` and `store`
+    * Applications with clustered databases: `None`
+    * Setup monitoring: `JHipster Console with ELK/Zipkin`
+    * The admin password for the JHipster Registry: `admin`
     
-4. Open Kitematic to view the Blog, Store and JHipster Console.
+    ![Generating Docker](static/generate-docker.png)
+    
+4. Run `docker-compose up` to run all your services and see the logs in the same window. Add `-d` if you want to run 
+them as a daemon.
+    
+5. Use [Kitematic](https://kitematic.com/) to view the ports and logs for the services deployed.
 
-### Kubernetes 
-<!-- Todo: document steps for Google Cloud -->
+![Kitematic](static/kitematic.png)
+
+You can view the JHipster Registry at <http://localhost:8761>.
+
+To produce data for the JHipster Console to display, run some Gatling tests in the `blog` app.
+
+```bash
+mvn gatling:execute
+```
+
+These simulations can take a while (> 10m) to complete. When they're finished, you can view their pretty reports.
+
+![Gatling Results](static/gatling-results.png)
+
+You can view the JHipster Console at <http://localhost:5601>. Navigate to Dashboards > Open to view some pre-built
+dashboards for the JVM, logs, metrics, microservices, and performance. The screenshots below show you what some of 
+these look like.
+
+<table style="width: 100%">
+<tr>
+<td><a href="static/dashboard-jvm.png"><img src="static/dashboard-jvm.png" alt="JVM Dashboard"></a></td>
+<td><a href="static/dashboard-microservices.png"><img src="static/dashboard-microservices.png" alt="Microservices Dashboard"></a></td>
+<td><a href="static/dashboard-performance.png"><img src="static/dashboard-performance.png" alt="Performance Dashboard"></a></td>
+</tr>
+</table>
 
 To save your changes for Kubernetes, commit your changes to Git.
 
 ```
-git add .
-git commit -m "Add Kubernetes"
+git commit -a -m "Add Docker Compose"
 ```
+
+### Kubernetes 
+
+[Kubernetes](https://kubernetes.io/) is an open-source system for automating deployment, scaling, and management of 
+containerized applications. It was developed at Google over the last 16 years and was internally called Borg. To deploy
+Docker containers with Kubernetes, you setup a cluster, then deploy to it. The context can be local (with Minikube), or 
+remote (e.g. a Raspberry Pi cluster, Google Cloud, AWS, OpenShift, etc.).
+
+Follow the steps below to use Kubernetes to deploy to a local cluster.
+
+
+1. Install [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/) and [Minikube](https://github.com/kubernetes/minikube/releases).
+2. Start Minikube using `minikube start`.
+3. To be able to work with the docker daemon, make sure Docker is running, then run the following command in your terminal:
+
+    ```bash
+    eval $(minikube docker-env)
+    ```
+
+4. Using your terminal, navigate to the root directory of your project, and create a `kubernetes` directory. Then run the 
+following command in it.
+
+    ```
+    yo jhipster:kubernetes
+    ````
+    
+    * Application type: `Microservice application`
+    * Root directory of your microservices: `../`
+    * Applications to include: `blog` and `store`
+    * Applications with clustered databases: `None`
+    * Setup monitoring: `JHipster Console with ELK/Zipkin`
+    * The admin password for the JHipster Registry: `admin`
+    
+    ![Generating Docker](static/generate-docker.png)
+    
+4. Create Docker images of the `blog` and `store` applications:
+
+   ```bash
+   mvn package -Pprod docker:build
+   ```
+  
+  
+5. Modify `kubernetes/blog/blog-deployment.yml` to add `imagePullPolicy: IfNotPresent`.
+
+    ```
+    image: blog
+    imagePullPolicy: IfNotPresent
+    ```
+
+6. Modify `kubernetes/store/store-deployment.yml` to add `imagePullPolicy: IfNotPresent`.
+
+    ```
+    image: store
+    imagePullPolicy: IfNotPresent
+    ```
+    
+7. Run the following commands in the `kubernetes` directory to deploy to Minikube. Run `minikube dashboard` to see the deployed containers.
+
+    ```
+    kubectl apply -f registry
+    kubectl apply -f blog
+    kubectl apply -f store
+    ```
+
+9. Run `minikube service blog` to view the blog application. You can also run `kubectl get po -o wide --watch` to see the status of each pod.
+
+To remove all deployed containers, run the following command:
+
+    kubectl delete deployment --all
+
+If you run `minikube delete` and have trouble running `minikube start` afterward, run `rm -rf ~/.minikube`. See [this issue](https://github.com/kubernetes/minikube/issues/290) for more information.
+
 
 ## Learn More
 
