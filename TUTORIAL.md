@@ -864,7 +864,7 @@ To see a screencast of building microservices with JHipster and deploying to Goo
 
 I hope you've enjoyed learning how JHipster can help you develop hip microservice architectures! It's a nifty project, with an 
 easy-to-use entity generator, a pretty UI and many Spring Boot best-practice patterns. The project team follows five 
-simple https://jhipster.github.io/policies/[policies], paraphrased here:
+simple [policies](https://jhipster.github.io/policies/), paraphrased here:
 
 1. The development team votes on policies.
 2. JHipster uses technologies with their default configurations as much as possible.
@@ -873,8 +873,8 @@ simple https://jhipster.github.io/policies/[policies], paraphrased here:
 5. Use strict versions for third-party libraries.
 
 These policies help the project maintain its sharp edge and streamline its development process. If you have features you'd 
-like to add or if you'd like to refine existing features, you can https://github.com/jhipster/generator-jhipster[watch the project on GitHub] 
-and https://github.com/jhipster/generator-jhipster/blob/master/CONTRIBUTING.md[help with its development] and support. 
+like to add or if you'd like to refine existing features, you can [watch the project on GitHub](https://github.com/jhipster/generator-jhipster)
+and [help with its development](https://github.com/jhipster/generator-jhipster/blob/master/CONTRIBUTING.md) and support. 
 We're always looking for help!
 
 If you have questions about JHipster, please [ask me on Twitter](https://twitter.com/mraible) or post a question to 
