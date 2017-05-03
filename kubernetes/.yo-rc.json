@@ -1,0 +1,14 @@
+{
+  "generator-jhipster": {
+    "appsFolders": [
+      "blog",
+      "store"
+    ],
+    "directoryPath": "../",
+    "serviceDiscoveryType": "eureka",
+    "jwtSecretKey": "808abc183cb9acf2ab8c4a2bc6b34335161b76e3",
+    "dockerRepositoryName": "mraible",
+    "dockerPushCommand": "docker push",
+    "kubernetesNamespace": "default"
+  }
+}

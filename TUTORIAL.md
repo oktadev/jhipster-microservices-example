@@ -656,7 +656,7 @@ To complete this section, you'll need to [install Docker](https://docs.docker.co
 **NOTE:** If you're not on Mac or Windows, you may need to [install Docker Compose](https://docs.docker.com/compose/install/) as well.
 
 <a name="docker-compose"></a>
-### Docker Compose
+### Run with Docker Compose
 
 Docker Compose is a tool for defining and running multi-container Docker applications. With Compose, you can create and 
 start all the components of your application with a single command.
@@ -669,7 +669,7 @@ start all the components of your application with a single command.
     ```
     
 3. Using your terminal, navigate to the root directory of your project, and create a `docker` directory. Then run the 
-following command in it.
+[JHipster Docker Compose sub-generator](https://jhipster.github.io/docker-compose/#docker-compose-subgen) in it.
 
     ```
     yo jhipster:docker-compose
@@ -721,7 +721,7 @@ To save your changes for Kubernetes, commit your changes to Git.
 git commit -a -m "Add Docker Compose"
 ```
 
-### Kubernetes 
+### Run with Kubernetes and Minikube
 
 [Kubernetes](https://kubernetes.io/) is an open-source system for automating deployment, scaling, and management of 
 containerized applications. It was developed at Google over the last 16 years and was internally called Borg. To deploy
@@ -730,17 +730,23 @@ remote (e.g. a Raspberry Pi cluster, Google Cloud, AWS, OpenShift, etc.).
 
 Follow the steps below to use Kubernetes to deploy to a local cluster.
 
-
-1. Install [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/) and [Minikube](https://github.com/kubernetes/minikube/releases).
+1. Install [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/), [VirtualBox](https://www.virtualbox.org/wiki/Downloads), 
+and [Minikube](https://github.com/kubernetes/minikube/releases).
 2. Start Minikube using `minikube start`.
-3. To be able to work with the docker daemon, make sure Docker is running, then run the following command in your terminal:
+3. To be able to work with the docker daemon, run the following command in your terminal:
 
+  ```bash
+  eval $(minikube docker-env)
+  ```
+  
+4. Create Docker images of the `blog` and `store` applications:
+   
     ```bash
-    eval $(minikube docker-env)
+    mvn package -Pprod docker:build
     ```
-
-4. Using your terminal, navigate to the root directory of your project, and create a `kubernetes` directory. Then run the 
-following command in it.
+      
+5. Using your terminal, navigate to the root directory of your project, and create a `kubernetes` directory. Then run the 
+[JHipster Kubernetes sub-generator](https://jhipster.github.io/kubernetes/) in it.
 
     ```
     yo jhipster:kubernetes
@@ -749,53 +755,110 @@ following command in it.
     * Application type: `Microservice application`
     * Root directory of your microservices: `../`
     * Applications to include: `blog` and `store`
-    * Applications with clustered databases: `None`
-    * Setup monitoring: `JHipster Console with ELK/Zipkin`
     * The admin password for the JHipster Registry: `admin`
+    * Kubernetes namespace: `default`
+    * Base Docker repository name: `<your-docker-hub-username>` # eg: mraible
+    * Command to push Docker image to repository: `docker push`
     
-    ![Generating Docker](static/generate-docker.png)
-    
-4. Create Docker images of the `blog` and `store` applications:
-
-   ```bash
-   mvn package -Pprod docker:build
-   ```
+    ![Generating Kubernetes](static/generate-kubernetes.png)
   
-  
-5. Modify `kubernetes/blog/blog-deployment.yml` to add `imagePullPolicy: IfNotPresent`.
+6. Run the following commands to tag your Docker images. The Kubernetes sub-generator says to run `docker push` as well, 
+but you don't need that for a Minikube deployment.
 
-    ```
-    image: blog
-    imagePullPolicy: IfNotPresent
-    ```
-
-6. Modify `kubernetes/store/store-deployment.yml` to add `imagePullPolicy: IfNotPresent`.
-
-    ```
-    image: store
-    imagePullPolicy: IfNotPresent
+    ```bash
+    docker image tag blog mraible/blog
+    docker image tag store mraible/store
     ```
     
-7. Run the following commands in the `kubernetes` directory to deploy to Minikube. Run `minikube dashboard` to see the deployed containers.
+7. Run the following commands in the `kubernetes` directory to deploy to Minikube. 
 
     ```
     kubectl apply -f registry
     kubectl apply -f blog
     kubectl apply -f store
     ```
+    
+    The deployment process can take several minutes to complete. Run `minikube dashboard` to see the deployed containers.
+    
+    ![Minikube Dashboard](static/minikube-dashboard.png)
+    
+    You can also run `kubectl get po -o wide --watch` to see the status of each pod.
 
-9. Run `minikube service blog` to view the blog application. You can also run `kubectl get po -o wide --watch` to see the status of each pod.
+8. Run `minikube service blog` to view the blog application. You should be able to login and add blogs, entries, and products.
 
 To remove all deployed containers, run the following command:
 
     kubectl delete deployment --all
+    
+To stop Minikube, run `minikube stop`.
 
-If you run `minikube delete` and have trouble running `minikube start` afterward, run `rm -rf ~/.minikube`. See [this issue](https://github.com/kubernetes/minikube/issues/290) for more information.
+### Deploy to Google Cloud
 
+Google Cloud is a PaaS that's built on Google's core infrastructure. It's one of the easiest providers to get Kubernetes 
+working with. Completed the steps below to deploy your hip microservices to Google Cloud. If you completed the Minikube
+section above, open a new terminal window to reset things.
 
-## Learn More
+1. Create a Google Cloud project at [console.cloud.google.com](https://console.cloud.google.com/).
+2. Navigate to <https://console.cloud.google.com/kubernetes/list> to initialize the Container Engine for your project. 
+3. Install [Google Cloud SDK](https://cloud.google.com/sdk/) and set project using:
+  
+       gcloud config set project <project-name>
 
-I hope you've enjoyed learning how JHipster can help you develop hip web applications! It's a nifty project, with an easy-to-use entity generator, a pretty UI and many Spring Boot best-practice patterns. The project team follows five simple https://jhipster.github.io/policies/[policies], paraphrased here:
+4. Create a cluster:
+  
+       gcloud container clusters create <cluster-name> --machine-type=n1-standard-2 --scopes cloud-platform --zone us-west1-a
+       
+   To see a list of possible zones, run `gcloud compute zones list`.
+   
+5. Push the `blog` and `store` docker images to [Docker Hub](https://hub.docker.com/). You will need to create an account 
+and run `docker login` to push your images. The images can be run from any directory.
+
+    ```bash
+    docker image tag blog mraible/blog
+    docker push mraible/blog
+    docker image tag store mraible/store
+    docker push mraible/store
+    ```
+
+6. Run `kubectl` commands to deploy.
+
+    ```bash
+    kubectl apply -f registry
+    kubectl apply -f blog
+    kubectl apply -f store
+    ```
+
+7. Use port-forwarding to see the registry app locally.
+
+       kubectl port-forward jhipster-registry-0 8761:8761
+    
+8. Run `kubectl get service blog` to get the external IP of the blog application on Google Cloud. Open 
+`http://<external-ip>:8080` to view your running application and verify everything works.
+
+9. Scale microservice apps as needed with `kubectl`:
+
+       kubectl scale --replicas=3 deployment/store
+       
+If you got everything working, congratulations! It's not easy learning all this new stuff.
+
+## Source Code and Screencast
+
+The source code for this tutorial is [available on GitHub](https://github.com/oktadeveloper/jhipster-microservices-example). 
+See its [README](https://github.com/oktadeveloper/jhipster-microservices-example) if you simply want to clone the project
+and run it.
+
+To see a screencast of building microservices with JHipster and deploying to Google Cloud, 
+[watch this YouTube video](https://youtu.be/dgVQOYEwleA).
+
+<div style="max-width: 560px; margin: 0 auto">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dgVQOYEwleA?ecver=1" frameborder="0" allowfullscreen></iframe>
+</div>
+
+## Learn More about JHipster and Microservices
+
+I hope you've enjoyed learning how JHipster can help you develop hip microservice architectures! It's a nifty project, with an 
+easy-to-use entity generator, a pretty UI and many Spring Boot best-practice patterns. The project team follows five 
+simple https://jhipster.github.io/policies/[policies], paraphrased here:
 
 1. The development team votes on policies.
 2. JHipster uses technologies with their default configurations as much as possible.
@@ -803,10 +866,16 @@ I hope you've enjoyed learning how JHipster can help you develop hip web applica
 4. For the Java code, follow the default IntelliJ IDEA formatting and coding guidelines.
 5. Use strict versions for third-party libraries.
 
-These policies help the project maintain its sharp edge and streamline its development process. If you have features you'd like to add or if you'd like to refine existing features, you can https://github.com/jhipster/generator-jhipster[watch the project on GitHub] and https://github.com/jhipster/generator-jhipster/blob/master/CONTRIBUTING.md[help with its development] and support. We're always looking for help!
+These policies help the project maintain its sharp edge and streamline its development process. If you have features you'd 
+like to add or if you'd like to refine existing features, you can https://github.com/jhipster/generator-jhipster[watch the project on GitHub] 
+and https://github.com/jhipster/generator-jhipster/blob/master/CONTRIBUTING.md[help with its development] and support. 
+We're always looking for help!
 
-Now that you've learned how to use Angular, Bootstrap 4, and Spring Boot with JHipster, go forth and develop great applications!
+If you have questions about JHipster, please [ask me on Twitter](https://twitter.com/mraible) or post a question to 
+Stack Overflow with the ["jhipster" tag](http://stackoverflow.com/questions/tagged/jhipster).
 
-## Source Code
+You might also find the following resources interesting:
 
-The source code for this project is available on GitHub at https://github.com/mraible/jhipster4-demo.
+* [Doing Microservices with JHipster](https://jhipster.github.io/microservices-architecture/)
+* [Building a Microservices Architecture for Microbrews](TBD on Okta Dev Blog)
+* [Microservice Resources from Chris Richardson](http://microservices.io/resources/index.html)

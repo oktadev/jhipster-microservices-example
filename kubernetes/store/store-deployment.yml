@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: store
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: store
+    spec:
+      containers:
+      - name: store-app
+        image: mraible/store
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: prod
+        - name: SPRING_CLOUD_CONFIG_URI
+          value: http://admin:${jhipster.registry.password}@jhipster-registry.default.svc.cluster.local:8761/config
+        - name: JHIPSTER_REGISTRY_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: registry-secret
+              key: registry-admin-password
+        - name: SPRING_DATA_MONGODB_URI
+          value: mongodb://store-mongodb.default.svc.cluster.local:27017
+        - name: SPRING_DATA_MONGODB_DATABASE
+          value: store
+        ports:
+        - containerPort: 8081

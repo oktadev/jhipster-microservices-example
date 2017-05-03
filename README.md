@@ -68,7 +68,7 @@ To find what's running on a port on macOS, use `sudo lsof -i :9092 # checks port
 
 ## Kubernetes
 
-1. Install [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/) and [Minikube](https://github.com/kubernetes/minikube/releases).
+1. Install [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/), [VirtualBox](https://www.virtualbox.org/wiki/Downloads), and [Minikube](https://github.com/kubernetes/minikube/releases).
 2. Start Minikube using `minikube start`.
 3. To be able to work with the docker daemon, make sure Docker is running, then run the following command in your terminal:
 
@@ -96,48 +96,69 @@ To find what's running on a port on macOS, use `sudo lsof -i :9092 # checks port
     imagePullPolicy: IfNotPresent
     ```
     
-7. Run the following commands in the `kubernetes` directory to deploy to Minikube. Run `minikube dashboard` to see the deployed containers.
+7. Run the following commands in the `kubernetes` directory to deploy to Minikube. 
 
     ```
     kubectl apply -f registry
     kubectl apply -f blog
     kubectl apply -f store
     ```
+    
+    The deployment process can take several minutes to complete. Run `minikube dashboard` to see the deployed containers.
+    You can also run `kubectl get po -o wide --watch` to see the status of each pod.
 
-9. Run `minikube service blog` to view the blog application. You can also run `kubectl get po -o wide --watch` to see the status of each pod.
+8. Run `minikube service blog` to view the blog application. You should be able to login and add blogs, entries, and products.
 
 To remove all deployed containers, run the following command:
 
     kubectl delete deployment --all
+    
+To stop Minikube, run `minikube stop`.
 
-If you run `minikube delete` and have trouble running `minikube start` afterward, run `rm -rf ~/.minikube`. See [this issue](https://github.com/kubernetes/minikube/issues/290) for more information.
+**NOTE:** If you run `minikube delete` and have trouble running `minikube start` afterward, run `rm -rf ~/.minikube`. 
+See [this issue](https://github.com/kubernetes/minikube/issues/290) for more information.
 
 ## Google Cloud
 
 1. Create a Google Cloud project at [console.cloud.google.com](https://console.cloud.google.com/).
-2. Install [Google Cloud SDK](https://cloud.google.com/sdk/) and set project using:
+2. Navigate to <https://console.cloud.google.com/kubernetes/list> to initialize the Container Engine for your project. 
+3. Install [Google Cloud SDK](https://cloud.google.com/sdk/) and set project using:
   
        gcloud config set project <project-name>
 
-3. Create a cluster:
+4. Create a cluster:
   
-       gcloud container clusters create <cluster-name> --machinetype=n1-standard-2 --scopes cloud-platform
+       gcloud container clusters create <cluster-name> --machine-type=n1-standard-2 --scopes cloud-platform --zone us-west1-a
+       
+   To see a list of possible zones, run `gcloud compute zones list`.
+   
+5. Push the `blog` and `store` docker images to [Docker Hub](https://hub.docker.com/). You will need to create an account 
+and run `docker login` to push your images. The images can be run from any directory.
 
-4. Run `kubectl` commands to deploy.
-
+    ```bash
+    docker image tag blog mraible/blog
+    docker push mraible/blog
+    docker image tag store mraible/store
+    docker push mraible/store
     ```
+
+6. Run `kubectl` commands to deploy.
+
+    ```bash
     kubectl apply -f registry
     kubectl apply -f blog
     kubectl apply -f store
     ```
 
-5. Use port-forwarding to see the registry app locally.
+7. Use port-forwarding to see the registry app locally.
 
        kubectl port-forward jhipster-registry-0 8761:8761
+    
+8. Run `kubectl svc blog` to view the blog application on Google Cloud.
 
-6. Scale microservice apps as needed:
+9. Scale microservice apps as needed with `kubectl`:
 
-       kubectl scale deployment store —replicas=3
+       kubectl scale --replicas=3 deployment/store
     
 To see a screencast of this process, [watch this YouTube video](https://youtu.be/dgVQOYEwleA).
 
