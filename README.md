@@ -85,7 +85,7 @@ To remove all deployed containers, run the following command:
 
     kubectl delete deployment --all
 
-If you run `minikube delete` and have trouble running `minikube start` afterward, run `rm -rf ~/.minikube`. See https://github.com/kubernetes/minikube/issues/290[this issue] for more information.
+If you run `minikube delete` and have trouble running `minikube start` afterward, run `rm -rf ~/.minikube`. See [this issue](https://github.com/kubernetes/minikube/issues/290) for more information.
 
 ## Google Cloud
 
