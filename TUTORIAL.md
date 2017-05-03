@@ -735,9 +735,9 @@ and [Minikube](https://github.com/kubernetes/minikube/releases).
 2. Start Minikube using `minikube start`.
 3. To be able to work with the docker daemon, run the following command in your terminal:
 
-  ```bash
-  eval $(minikube docker-env)
-  ```
+   ```bash
+   eval $(minikube docker-env)
+   ```
   
 4. Create Docker images of the `blog` and `store` applications:
    
@@ -757,7 +757,7 @@ and [Minikube](https://github.com/kubernetes/minikube/releases).
     * Applications to include: `blog` and `store`
     * The admin password for the JHipster Registry: `admin`
     * Kubernetes namespace: `default`
-    * Base Docker repository name: `<your-docker-hub-username>` # eg: mraible
+    * Base Docker repository name (e.g. mraible): `<your-docker-hub-username>`
     * Command to push Docker image to repository: `docker push`
     
     ![Generating Kubernetes](static/generate-kubernetes.png)
