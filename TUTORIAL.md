@@ -78,9 +78,30 @@ In JHipster terms, a **gateway** is a normal JHipster application. This means yo
 it like a monolith, but it also acts as the entrance to your microservices. More specifically, it provides HTTP 
 routing and load balancing, quality of service, security, and API documentation for all microservices.
 
-Navigate into the `blog` directory and run `yo jhipster`. You'll be asked a number of questions about the type of 
-application you want to generate and what features you'd like to include. The screenshot below shows the choices I made
-when creating the `blog` application.
+Navigate into the `blog` directory and run `yo jhipster`. 
+
+You'll be asked a number of questions about the type of  application you want to generate and what features you'd like 
+to include. Create the `blog` application with the following settings:
+
+* Application type: `Microservice gateway`
+* Base name of the application: `blog`
+* Install other generators from the JHipster Marketplace: `No`
+* Port: `8080`
+* Default package name: `org.jhipster.blog`
+* Type of authentication: `JWT`
+* Service Discovery and Configuration: `JHipster Registry`
+* Type of database: `SQL`
+* Production database: `PostgreSQL`
+* Development database: `H2 with disk-based persistence`
+* Hibernate 2nd-level cache: `Yes, with HazelCast`
+* Maven or Gradle: `Maven`
+* Other technologies: `Elasticsearch`
+* Client framework: `Angular 4`
+* Sass for CSS: `Yes`
+* Internationalization support: `Yes`
+* Native language: `English`
+* Additional languages: `Spanish`
+* Testing frameworks: `Gatling, Protractor`
 
 ![Generating the gateway](static/generating-blog.png)
 
@@ -437,6 +458,27 @@ git commit -m "UI enhancements"
 ```
 
 ## Create a Microservice
+
+To generate a `store` microservice, open a terminal window and navigate to the `jhipster-microservices-example` directory.
+Create a `store` directory and run `yo jhipster` in it. Use the following settings to generate a microservice that uses 
+MongoDB for its database.
+
+* Application type: `Microservice application`
+* Base name of the application: `store`
+* Install other generators from the JHipster Marketplace: `No`
+* Port: `8081`
+* Default package name: `org.jhipster.store`
+* Type of authentication: `JWT`
+* Service Discovery and Configuration: `JHipster Registry`
+* Type of database: `MongoDB`
+* Maven or Gradle: `Maven`
+* Other technologies: `Elasticsearch`
+* Internationalization support: `Yes`
+* Native language: `English`
+* Additional languages: `Spanish`
+* Testing frameworks: `Gatling`
+
+![Generating the microservice](static/generating-store.png)
 
 Commit all your changes to Git.
 
