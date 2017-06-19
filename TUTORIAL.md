@@ -756,8 +756,6 @@ but you don't need that for a Minikube deployment.
 
 8. Run `minikube service blog` to view the blog application. You should be able to login and add blogs, entries, and products.
 
-// I'm seeing a lot of list styles in this post that don't read like you, and aren't punctuated the way you typically punctuate lists. Is any of this post copy-pasted from elsewhere?
-
 To remove all deployed containers, run the following command:
 
     kubectl delete deployment --all
