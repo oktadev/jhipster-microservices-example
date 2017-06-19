@@ -39,7 +39,7 @@ use a released version of JHipster.
 
 ## Microservices with JHipster 
 
-To build a microservices architecture with JHipster, you'll need to generate two applications, and clone another.
+To build a microservices architecture with JHipster, you'll need to generate two applications and clone another.
 
 * Generate a gateway
 * Generate a microservice
@@ -143,7 +143,7 @@ run `jhipster` in it. You won't be prompted to answer any questions because the 
 }
 ```
 
-The project creation process will take a couple minutes to run, depending on your internet connection speed. When it's 
+The project creation process will take a couple of minutes to run, depending on your internet connection speed. When it's 
 finished, you should see output like this:
 
 ![Generation success](static/generation-success.png)
@@ -209,7 +209,7 @@ For each entity you want to create, you will need:
 * An Angular model, state, component, dialog components, service
 * Several HTML pages for each component
 
-In addition, you should have integration tests to verify that everything works and performance tests to verify that it runs fast. In an ideal world, you'd also have unit tests and integration tests for your Angular code.
+Also, you should have integration tests to verify that everything works and performance tests to verify that it runs fast. In an ideal world, you'd also have unit tests and integration tests for your Angular code.
 
 The good news is JHipster can generate all of this code for you, including integration tests and performance tests. In addition, if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys), and the TypeScript and HTML code to manage them. You can also set up validation to require certain fields, as well as control their length.
 
@@ -253,14 +253,14 @@ paginate Entry, Tag with infinite-scroll
 Run the following command (in the `blog` directory) to import this file. Running this command will generate entities, tests, and a UI.
 
 ```bash
-yo jhipster:import-jdl ~/Downloads/jhipster-jdl.jh
+jhipster import-jdl ~/Downloads/jhipster-jdl.jh
 ```
 
 You'll be prompted to overwrite `src/main/resources/config/liquibase/master.xml`. Type `a` to overwrite this 
 file, as well as others.
 
 Start the application with `/.mvnw` and run `yarn start` (in another window) to view the UI for the generated entities. 
-Create a couple blogs for the existing `admin` and `user` users, as well as a few blog entries.
+Create a couple of blogs for the existing `admin` and `user` users, as well as a few blog entries.
 
 ![Blogs](static/blogs.png)
 
@@ -582,7 +582,7 @@ When you prepare a JHipster application for production, it's recommended to use 
 With Maven, you can package your application by specifying the `prod` profile when building.
 
 ```bash
-mvn -Pprod package
+./mvnw -Pprod package
 ```
 
 The production profile is used to build an optimized JavaScript client. You can invoke this using webpack by running 
@@ -647,7 +647,7 @@ git add .
 git commit -m "Fix tests"
 ```
 
-After fixing this test, you should be able to run `mvn -Pprod package` without any failures. You might notice that
+After fixing this test, you should be able to run `./mvnw -Pprod package` without any failures. You might notice that
 this does take quite some time, mostly due to the Webpack build and optimizations. Below is the output from a Mid 2015
 MacBook Pro with 16GB of RAM and JAVA_OPTS set to `-Xmx2048m`.
 
@@ -664,7 +664,7 @@ MacBook Pro with 16GB of RAM and JAVA_OPTS set to `-Xmx2048m`.
 ## Deploy to the Cloud
 
 What good is a microservices architecture if it's not deployed to a PaaS (Platform as a Service)?! PaaS providers
-are also known as "the cloud", and allow you to easily deploy and scale microservices as needed. Docker provides
+are also known as "the cloud", and allow you to deploy and scale microservices as needed. Docker provides
 a mechanism to "package" your applications as an entire bundle. A Docker container includes the operating system and 
 services needed to run your application. Often, Docker containers are used for the individual components of your 
 architecture. For example, you'll have a Docker container for each app, as well as one for PostgreSQL, MongoDB, and
@@ -685,7 +685,7 @@ start all the components of your application with a single command.
 2. Build Docker images for the `blog` and `store` applications by running the following command in both directories:
 
     ```
-    mvn package -Pprod docker:build
+    ./mvnw package -Pprod docker:build
     ```
     
 3. Using your terminal, navigate to the root directory of your project, and create a `docker` directory. Then run the 
@@ -716,7 +716,7 @@ You can view the JHipster Registry at <http://localhost:8761>.
 To produce data for the JHipster Console to display, run some Gatling tests in the `blog` app.
 
 ```bash
-mvn gatling:execute
+./mvnw gatling:execute
 ```
 
 These simulations can take a while (> 10m) to complete. When they're finished, you can view their pretty reports.
@@ -766,7 +766,7 @@ and [Minikube](https://github.com/kubernetes/minikube/releases)
 4. Create Docker images of the `blog` and `store` applications:
    
     ```bash
-    mvn package -Pprod docker:build
+    ./mvnw package -Pprod docker:build
     ```
       
 5. Using your terminal, navigate to the root directory of your project, and create a `kubernetes` directory. Then run the 
@@ -884,7 +884,7 @@ and run it. Or, you can [watch a screencast of building microservices with JHips
 
 ## Learn More about JHipster and Microservices
 
-I hope you've enjoyed learning how JHipster can help you develop hip microservice architectures! It's a nifty project, with an easy-to-use entity generator, a pretty UI, and many Spring Boot best-practice patterns. If you have features you'd 
+I hope you've enjoyed learning how JHipster can help you develop hip microservice architectures! It's a nifty project, with an easy-to-use entity generator, a beautiful UI, and many Spring Boot best-practice patterns. If you have features you'd 
 like to add or if you'd like to refine existing features, you can [watch the project on GitHub](https://github.com/jhipster/generator-jhipster) and [help with its development](https://github.com/jhipster/generator-jhipster/blob/master/CONTRIBUTING.md) and support. We're always looking for help!
 
 If you have questions about JHipster, please [hit me up on Twitter](https://twitter.com/mraible) or post a question to 
