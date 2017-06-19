@@ -1,7 +1,7 @@
 # ===================================================================
 # Spring Boot configuration.
 #
-# This configuration will be overriden by the Spring profile you use,
+# This configuration will be overridden by the Spring profile you use,
 # for example application-dev.yml if you use the "dev" profile.
 #
 # More information on profiles: https://jhipster.github.io/profiles/
@@ -31,15 +31,19 @@ eureka:
         status-page-url-path: ${management.context-path}/info
         health-check-url-path: ${management.context-path}/health
         metadata-map:
+            zone: primary # This is needed for the load balancer
             profile: ${spring.profiles.active}
             version: ${info.project.version}
 ribbon:
     eureka:
         enabled: true
-zuul:
+# See http://cloud.spring.io/spring-cloud-netflix/spring-cloud-netflix.html
+zuul: # those values must be configured depending on the application specific needs
     host:
-        connect-timeout-millis: 5000
-        socket-timeout-millis: 10000
+        max-total-connections: 1000
+        max-per-route-connections: 100
+    semaphore:
+        max-semaphores: 500
 
 # See https://github.com/Netflix/Hystrix/wiki/Configuration
 hystrix:

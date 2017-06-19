@@ -15,7 +15,7 @@
 
 eureka:
     client:
-        enabled: false
+        enabled: true
     instance:
         appname: store
         instanceId: store:${spring.application.instance-id:${random.value}}
@@ -64,14 +64,24 @@ jhipster:
         core-pool-size: 1
         max-pool-size: 50
         queue-capacity: 10000
+    # To test logstash appender
+    logging:
+        logstash:
+            enabled: true
+            host: localhost
+            port: 5000
+            queue-size: 512
     security:
         authentication:
             jwt:
-                secret: 93f6128bb08c1b44b310de18d7b386a02542b60b
+                secret: ea21b5b635606be4d7937e29926166e0ee56abb1
                 # Token is valid 24 hours
                 token-validity-in-seconds: 86400
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
+        logs: # Reports Dropwizard metrics in the logs
+            enabled: true
+            report-frequency: 60 # in seconds
 
 # ===================================================================
 # Application specific properties

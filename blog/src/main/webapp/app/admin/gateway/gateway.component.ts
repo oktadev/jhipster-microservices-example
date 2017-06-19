@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { JhiLanguageService } from 'ng-jhipster';
 
 import { GatewayRoutesService } from './gateway-routes.service';
 import { GatewayRoute } from './gateway-route.model';
@@ -15,10 +14,8 @@ export class JhiGatewayComponent implements OnInit {
     updatingRoutes: Boolean;
 
     constructor(
-        private jhiLanguageService: JhiLanguageService,
         private gatewayRoutesService: GatewayRoutesService
     ) {
-        this.jhiLanguageService.setLocations(['gateway']);
     }
 
     ngOnInit() {
@@ -27,7 +24,7 @@ export class JhiGatewayComponent implements OnInit {
 
     refresh() {
         this.updatingRoutes = true;
-        this.gatewayRoutesService.findAll().subscribe(gatewayRoutes => {
+        this.gatewayRoutesService.findAll().subscribe((gatewayRoutes) => {
             this.gatewayRoutes = gatewayRoutes;
             this.updatingRoutes = false;
         });

@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Response } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { EventManager, ParseLinks, PaginationUtil, JhiLanguageService, AlertService, DataUtils } from 'ng-jhipster';
+import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 import { Entry } from './entry.model';
 import { EntryService } from './entry.service';
-import { ITEMS_PER_PAGE, Principal } from '../../shared';
+import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
 @Component({
@@ -28,12 +27,11 @@ export class EntryComponent implements OnInit, OnDestroy {
     currentSearch: string;
 
     constructor(
-        private jhiLanguageService: JhiLanguageService,
         private entryService: EntryService,
-        private alertService: AlertService,
-        private dataUtils: DataUtils,
-        private eventManager: EventManager,
-        private parseLinks: ParseLinks,
+        private alertService: JhiAlertService,
+        private dataUtils: JhiDataUtils,
+        private eventManager: JhiEventManager,
+        private parseLinks: JhiParseLinks,
         private activatedRoute: ActivatedRoute,
         private principal: Principal
     ) {
@@ -46,7 +44,6 @@ export class EntryComponent implements OnInit, OnDestroy {
         this.predicate = 'id';
         this.reverse = true;
         this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
-        this.jhiLanguageService.setLocations(['entry']);
     }
 
     loadAll() {
@@ -57,8 +54,8 @@ export class EntryComponent implements OnInit, OnDestroy {
                 size: this.itemsPerPage,
                 sort: this.sort()
             }).subscribe(
-                (res: Response) => this.onSuccess(res.json(), res.headers),
-                (res: Response) => this.onError(res.json())
+                (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+                (res: ResponseWrapper) => this.onError(res.json)
             );
             return;
         }
@@ -67,8 +64,8 @@ export class EntryComponent implements OnInit, OnDestroy {
             size: this.itemsPerPage,
             sort: this.sort()
         }).subscribe(
-            (res: Response) => this.onSuccess(res.json(), res.headers),
-            (res: Response) => this.onError(res.json())
+            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+            (res: ResponseWrapper) => this.onError(res.json)
         );
     }
 

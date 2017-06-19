@@ -21,8 +21,6 @@ eureka:
             defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
 
 spring:
-    autoconfigure:
-        exclude: org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration
     devtools:
         restart:
             enabled: false
@@ -47,13 +45,6 @@ spring:
             hibernate.cache.use_minimal_puts: true
             hibernate.cache.hazelcast.use_lite_member: true
     data:
-        cassandra:
-            contactPoints: localhost
-            protocolVersion: V4
-            compression: LZ4
-            keyspaceName: blog
-            repositories:
-                enabled: false
         elasticsearch:
             cluster-name:
             cluster-nodes: localhost:9300
@@ -106,7 +97,7 @@ server:
 
 jhipster:
     gateway:
-        rate-limiting: # Warning! Read the documentation in the GatewayConfiguration class.
+        rate-limiting:
             enabled: false
         authorized-microservices-endpoints: # Access Control Policy, if left empty for a route, all endpoints will be accessible
             app1: /api # recommended prod configuration
@@ -121,7 +112,7 @@ jhipster:
     security:
         authentication:
             jwt:
-                secret: 055aa488cbab06a1467646ba68b2baf7f88cc2ca
+                secret: f7450a034a7251b3d201cf5139852f9adf69c2d1
                 # Token is valid 24 hours
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000

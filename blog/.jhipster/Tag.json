@@ -20,7 +20,7 @@
             "fieldValidateRulesMinlength": 2
         }
     ],
-    "changelogDate": "20170501200521",
+    "changelogDate": "20170617000636",
     "entityTableName": "tag",
     "dto": "no",
     "pagination": "infinite-scroll",

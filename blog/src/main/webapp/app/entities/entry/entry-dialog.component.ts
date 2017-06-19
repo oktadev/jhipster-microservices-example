@@ -2,14 +2,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
+import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService, JhiLanguageService, DataUtils } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 import { Entry } from './entry.model';
 import { EntryPopupService } from './entry-popup.service';
 import { EntryService } from './entry.service';
 import { Blog, BlogService } from '../blog';
 import { Tag, TagService } from '../tag';
+import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-entry-dialog',
@@ -24,27 +26,27 @@ export class EntryDialogComponent implements OnInit {
     blogs: Blog[];
 
     tags: Tag[];
+
     constructor(
         public activeModal: NgbActiveModal,
-        private jhiLanguageService: JhiLanguageService,
-        private dataUtils: DataUtils,
-        private alertService: AlertService,
+        private dataUtils: JhiDataUtils,
+        private alertService: JhiAlertService,
         private entryService: EntryService,
         private blogService: BlogService,
         private tagService: TagService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
-        this.jhiLanguageService.setLocations(['entry']);
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.blogService.query().subscribe(
-            (res: Response) => { this.blogs = res.json(); }, (res: Response) => this.onError(res.json()));
-        this.tagService.query().subscribe(
-            (res: Response) => { this.tags = res.json(); }, (res: Response) => this.onError(res.json()));
+        this.blogService.query()
+            .subscribe((res: ResponseWrapper) => { this.blogs = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.tagService.query()
+            .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     byteSize(field) {
         return this.dataUtils.byteSize(field);
     }
@@ -54,7 +56,7 @@ export class EntryDialogComponent implements OnInit {
     }
 
     setFileData(event, entry, field, isImage) {
-        if (event.target.files && event.target.files[0]) {
+        if (event && event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
             if (isImage && !/^image\//.test(file.type)) {
                 return;
@@ -65,6 +67,7 @@ export class EntryDialogComponent implements OnInit {
             });
         }
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -72,17 +75,25 @@ export class EntryDialogComponent implements OnInit {
     save() {
         this.isSaving = true;
         if (this.entry.id !== undefined) {
-            this.entryService.update(this.entry)
-                .subscribe((res: Entry) =>
-                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.subscribeToSaveResponse(
+                this.entryService.update(this.entry), false);
         } else {
-            this.entryService.create(this.entry)
-                .subscribe((res: Entry) =>
-                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.subscribeToSaveResponse(
+                this.entryService.create(this.entry), true);
         }
     }
 
-    private onSaveSuccess(result: Entry) {
+    private subscribeToSaveResponse(result: Observable<Entry>, isCreated: boolean) {
+        result.subscribe((res: Entry) =>
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+    }
+
+    private onSaveSuccess(result: Entry, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'blogApp.entry.created'
+            : 'blogApp.entry.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'entryListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

@@ -15,8 +15,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="blogApp.product.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
-                [(ngModel)]="product.name"
-            required />
+                [(ngModel)]="product.name" required />
             <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
@@ -27,8 +26,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="blogApp.product.price" for="field_price">Price</label>
             <input type="number" class="form-control" name="price" id="field_price"
-                [(ngModel)]="product.price"
-            required />
+                [(ngModel)]="product.price" required />
             <div [hidden]="!(editForm.controls.price?.dirty && editForm.controls.price?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.price?.errors?.required" jhiTranslate="entity.validation.required">

@@ -55,13 +55,15 @@ public class AccountResource {
      * @return the ResponseEntity with status 201 (Created) if the user is registered or 400 (Bad Request) if the login or email is already in use
      */
     @PostMapping(path = "/register",
-                    produces={MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
+        produces={MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
     @Timed
     public ResponseEntity registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
 
         HttpHeaders textPlainHeaders = new HttpHeaders();
         textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
-
+        if (!checkPasswordLength(managedUserVM.getPassword())) {
+            return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);
+        }
         return userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase())
             .map(user -> new ResponseEntity<>("login already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
             .orElseGet(() -> userRepository.findOneByEmail(managedUserVM.getEmail())
@@ -70,7 +72,8 @@ public class AccountResource {
                     User user = userService
                         .createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
                             managedUserVM.getFirstName(), managedUserVM.getLastName(),
-                            managedUserVM.getEmail().toLowerCase(), managedUserVM.getImageUrl(), managedUserVM.getLangKey());
+                            managedUserVM.getEmail().toLowerCase(), managedUserVM.getImageUrl(),
+                            managedUserVM.getLangKey());
 
                     mailService.sendActivationEmail(user);
                     return new ResponseEntity<>(HttpStatus.CREATED);
@@ -127,12 +130,13 @@ public class AccountResource {
     @PostMapping("/account")
     @Timed
     public ResponseEntity saveAccount(@Valid @RequestBody UserDTO userDTO) {
+        final String userLogin = SecurityUtils.getCurrentUserLogin();
         Optional<User> existingUser = userRepository.findOneByEmail(userDTO.getEmail());
-        if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userDTO.getLogin()))) {
+        if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userLogin))) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "Email already in use")).body(null);
         }
         return userRepository
-            .findOneByLogin(SecurityUtils.getCurrentUserLogin())
+            .findOneByLogin(userLogin)
             .map(u -> {
                 userService.updateUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
                     userDTO.getLangKey(), userDTO.getImageUrl());

@@ -145,24 +145,24 @@ public class Entry implements Serializable {
             return false;
         }
         Entry entry = (Entry) o;
-        if (entry.id == null || id == null) {
+        if (entry.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(id, entry.id);
+        return Objects.equals(getId(), entry.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(getId());
     }
 
     @Override
     public String toString() {
         return "Entry{" +
-            "id=" + id +
-            ", title='" + title + "'" +
-            ", content='" + content + "'" +
-            ", date='" + date + "'" +
-            '}';
+            "id=" + getId() +
+            ", title='" + getTitle() + "'" +
+            ", content='" + getContent() + "'" +
+            ", date='" + getDate() + "'" +
+            "}";
     }
 }

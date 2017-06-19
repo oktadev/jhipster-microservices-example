@@ -3,11 +3,8 @@ package org.jhipster.blog.config;
 import io.github.jhipster.config.JHipsterProperties;
 
 import org.jhipster.blog.gateway.ratelimiting.RateLimitingFilter;
-import org.jhipster.blog.gateway.ratelimiting.RateLimitingRepository;
 import org.jhipster.blog.gateway.accesscontrol.AccessControlFilter;
 import org.jhipster.blog.gateway.responserewriting.SwaggerBasePathRewritingFilter;
-
-import com.datastax.driver.core.*;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.netflix.zuul.filters.RouteLocator;
@@ -59,13 +56,8 @@ public class GatewayConfiguration {
         }
 
         @Bean
-        public RateLimitingRepository rateLimitingRepository(Session session) {
-            return new RateLimitingRepository(session);
-        }
-
-        @Bean
-        public RateLimitingFilter rateLimitingFilter(RateLimitingRepository rateLimitingRepository) {
-            return new RateLimitingFilter(rateLimitingRepository, jHipsterProperties);
+        public RateLimitingFilter rateLimitingFilter() {
+            return new RateLimitingFilter(jHipsterProperties);
         }
     }
 }

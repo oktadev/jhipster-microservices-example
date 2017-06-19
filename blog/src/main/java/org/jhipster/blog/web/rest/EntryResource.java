@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -76,7 +77,7 @@ public class EntryResource {
      * @param entry the entry to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated entry,
      * or with status 400 (Bad Request) if the entry is not valid,
-     * or with status 500 (Internal Server Error) if the entry couldnt be updated
+     * or with status 500 (Internal Server Error) if the entry couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/entries")
@@ -153,6 +154,5 @@ public class EntryResource {
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/entries");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-
 
 }

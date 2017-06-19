@@ -5,7 +5,7 @@
       "nativeLanguage": "en",
       "microservicePath": "../store"
     },
-    "jhipsterVersion": "4.3.0",
+    "jhipsterVersion": "4.5.4",
     "baseName": "blog",
     "packageName": "org.jhipster.blog",
     "packageFolder": "org/jhipster/blog",
@@ -22,7 +22,7 @@
     "serviceDiscoveryType": "eureka",
     "buildTool": "maven",
     "enableSocialSignIn": false,
-    "jwtSecretKey": "055aa488cbab06a1467646ba68b2baf7f88cc2ca",
+    "jwtSecretKey": "f7450a034a7251b3d201cf5139852f9adf69c2d1",
     "clientFramework": "angular2",
     "useSass": true,
     "clientPackageManager": "yarn",

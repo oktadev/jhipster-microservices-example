@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { EventManager , JhiLanguageService  } from 'ng-jhipster';
+import { JhiEventManager  } from 'ng-jhipster';
 
 import { Product } from './product.model';
 import { ProductService } from './product.service';
@@ -13,16 +13,14 @@ import { ProductService } from './product.service';
 export class ProductDetailComponent implements OnInit, OnDestroy {
 
     product: Product;
-    private subscription: any;
+    private subscription: Subscription;
     private eventSubscriber: Subscription;
 
     constructor(
-        private eventManager: EventManager,
-        private jhiLanguageService: JhiLanguageService,
+        private eventManager: JhiEventManager,
         private productService: ProductService,
         private route: ActivatedRoute
     ) {
-        this.jhiLanguageService.setLocations(['product']);
     }
 
     ngOnInit() {
@@ -47,6 +45,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInProducts() {
-        this.eventSubscriber = this.eventManager.subscribe('productListModification', (response) => this.load(this.product.id));
+        this.eventSubscriber = this.eventManager.subscribe(
+            'productListModification',
+            (response) => this.load(this.product.id)
+        );
     }
 }
