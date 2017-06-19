@@ -1,43 +1,37 @@
-> Learn how to develop a microservice architecture with JHipster, Spring Boot, Angular, and MongoDB and deploy it all to 
-the cloud using Kubernetes and Docker.
+# Develop and Deploy Microservices with JHipster
 
-This tutorial shows you how to build a microservices architecture with 
-[JHipster 4.5.4](https://jhipster.github.io/2017/06/16/jhipster-release-4.5.4.html). 
-You'll generate a gateway (powered by Netflix Zuul and the JHipster Gateway), a microservice (that talks to MongoDB), 
-and use Docker Compose to make sure it all runs locally. Then you'll deploy it to Minikube and Google Cloud using 
-Kubernetes.
-
-## What is JHipster?
-
-JHipster is one of those open-source projects you stumble upon and immediately think, "`Of course!`" It combines three successful frameworks in web development: Bootstrap, Angular, and Spring Boot. Bootstrap was one of the first dominant web-component frameworks. Its largest appeal was that it only required a bit of HTML and it worked! Bootstrap showed many in the Java community how to develop components for the web. It leveled the playing field in HTML/CSS development, much like Apple's Human Interface Guidelines did for iOS apps.
-
-Julien Dubois started JHipster in October 2013 (Julien's first commit was on 
-[October 21, 2013](https://github.com/jhipster/generator-jhipster/commit/c8630ab7af7b6a99db880b3b0e2403806b7d2436)). The 
-first public release (version 0.3.1) was launched December 7, 2013. Since then, the project has had over 130 releases! 
-It is an open-source, Apache 2.0-licensed project on GitHub. It has a core team of 19 developers and over 330 contributors. 
-You can find its homepage at [http://jhipster.github.io](http://jhipster.github.io/). If you look at 
-[the project on GitHub](https://github.com/jhipster/generator-jhipster), you can see it's mostly written in JavaScript 
-(40%) and Java (29%). 
+JHipster is one of those open-source projects you stumble upon and immediately think, "`Of course!`" It combines three 
+very successful frameworks in web development: Bootstrap, Angular, and Spring Boot. Bootstrap was one of the first dominant 
+web-component frameworks. Its largest appeal was that it only required a bit of HTML and it worked! Bootstrap showed many 
+in the Java community how to develop components for the web. It leveled the playing field in HTML/CSS development, much 
+like Apple's Human Interface Guidelines did for iOS apps.
 
 At its core, JHipster is a [Yeoman](http://yeoman.io/) generator. Yeoman is a code generator that you run with a `yo` 
-command to generate complete applications or useful pieces of an application. Yeoman generators promote what the Yeoman team calls the "`Yeoman workflow`". This is an opinionated client-side stack of tools that can help developers quickly build beautiful web applications. It takes care of providing everything needed to get working without the normal pains associated with a manual setup.
+command to generate complete applications or useful pieces of an application. Yeoman generators promote what the Yeoman 
+team calls the "`Yeoman workflow`". This is an opinionated client-side stack of tools that can help developers quickly 
+build beautiful web applications. It takes care of providing everything needed to get working without the normal pains 
+associated with a manual setup.
+
+*Learn more about JHipster, including its origin, at [http://jhipster.github.io](http://jhipster.github.io).*
+
+This tutorial shows you how to build a microservices architecture with [JHipster 4.5.4](https://jhipster.github.io/2017/06/16/jhipster-release-4.5.4.html). You'll generate a gateway (powered by Netflix Zuul and the JHipster Gateway), a microservice (that talks to MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it to Minikube and Google Cloud using Kubernetes.
 
 ## Install JHipster 4
 
 The [Installing JHipster](http://jhipster.github.io/installation/) instructions show you all the tools you'll need to 
 use a released version of JHipster.
 
-1. Install Java 8 [from Oracle](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
-2. Install Git from <https://git-scm.com>.
-3. Install Node.js from <http://nodejs.org>. I used Node 8.1.2 to write this article.
-4. Install Yarn using the [Yarn installation instructions](https://yarnpkg.com/en/docs/install).
-5. Run the following command to install [Yeoman](http://yeoman.io/).
+1. Install Java 8 [from Oracle](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+2. Install Git from <https://git-scm.com>
+3. Install Node.js from <http://nodejs.org> (I used Node 6.11.0 to write this article)
+4. Install Yarn using the [Yarn installation instructions](https://yarnpkg.com/en/docs/install)
+5. Run the following command to install [Yeoman](http://yeoman.io/)
 
     ```
     yarn global add yo
     ```
 
-6. Run the following command to install JHipster.
+6. Run the following command to install JHipster
 
     ```
     yarn global add generator-jhipster
@@ -60,13 +54,15 @@ a monitoring tool based on the [ELK Stack](https://www.elastic.co/products). I'l
 
 ## Create an API Gateway
 
-To create a microservices project, open a terminal window and create a `jhipster-microservices-example` directory. Then create a `blog` directory for the gateway application. 
+To create a microservices project, open a terminal window and create a `jhipster-microservices-example` directory. Then 
+create a `blog` directory for the gateway application. 
 
 ```bash
 mkdir -p jhipster-microservices-example/blog
 ```
 
-In JHipster terms, a **gateway** is a regular JHipster application. Because of this, you can develop it like a monolith, but it also acts as the entrance to your microservices. More specifically, it provides HTTP 
+In JHipster terms, a **gateway** is a normal JHipster application. This means you can develop 
+it like a monolith, but it also acts as the entrance to your microservices. More specifically, it provides HTTP 
 routing and load balancing, quality of service, security, and API documentation for all microservices.
 
 In a terminal, navigate to the `blog` directory and run `jhipster`. 
@@ -76,7 +72,8 @@ cd jhipster-microservices-example/blog
 jhipster
 ```
 
-JHipster prompts you with many questions about the type of application you want to generate and what features you'd like to include. Create the `blog` application with the following settings:
+JHipster prompts you with many questions about the type of application you want to generate and what features you'd like 
+to include. Create the `blog` application with the following settings:
 
 * Application type: `Microservice gateway`
 * Base name of the application: `blog`
@@ -84,7 +81,6 @@ JHipster prompts you with many questions about the type of application you want 
 * Default package name: `org.jhipster.blog`
 * JHipster Registry: `Yes`
 * Type of authentication: `JWT`
-* Use JHipster Registry: `Yes`
 * Type of database: `SQL`
 * Production database: `PostgreSQL`
 * Development database: `H2 with disk-based persistence`
@@ -100,7 +96,8 @@ JHipster prompts you with many questions about the type of application you want 
 
 ![Generating the gateway](static/generate-blog.png)
 
-If you'd like to use the same settings I did, you can place the following `.yo-rc.json` file in the `blog` directory and run `yo jhipster` in it. You won't be prompted to answer any questions because the answers are already in `.yo-rc.json`.
+If you'd like to use the same settings I did, you can place the following `.yo-rc.json` file in the `blog` directory and 
+run `jhipster` in it. You won't be prompted to answer any questions because the answers are already in `.yo-rc.json`.
 
 ```json
 {
@@ -146,12 +143,13 @@ If you'd like to use the same settings I did, you can place the following `.yo-r
 }
 ```
 
-The project creation process will take a couple of minutes to run, depending on your internet connection speed. When it's 
-finished, you should see output like the following.
+The project creation process will take a couple minutes to run, depending on your internet connection speed. When it's 
+finished, you should see output like this:
 
 ![Generation success](static/generation-success.png)
 
-Before you can run this project, you'll need to download and start an instance of the [JHipster Registry](https://github.com/jhipster/jhipster-registry). Run the following commands in the `jhipster-microservices-example` directory.
+Before you can run this project, you'll need to download and start an instance of the [JHipster Registry](https://github.com/jhipster/jhipster-registry). 
+Run the following commands in the `jhipster-microservices-example` directory.
 
 ```bash
 git clone git@github.com:jhipster/jhipster-registry.git registry
@@ -162,7 +160,7 @@ The [JHipster Registry](https://jhipster.github.io/microservices-architecture/#j
 Cloud Netflix and Spring Cloud Config. Patterns provided by Spring Cloud Netflix include Service Discovery (Eureka),  
 Circuit Breaker (Hystrix), Intelligent Routing (Zuul), and Client Side Load Balancing (Ribbon). 
 
-In a new terminal window,navigate to `/jhipster-microservices-example/blog` and run `./mvnw` to start the blog application 
+In a new terminal window, navigate to `/jhipster-microservices-example/blog` and run `./mvnw` to start the blog application 
 and open <http://localhost:8080> in your favorite browser. The first thing you'll notice is a dapper-looking fellow 
 explaining how you can sign in or register.
 
@@ -182,7 +180,8 @@ And it allows you to see the Swagger docs associated with its API.
 
 ![Swagger docs](static/swagger-docs.png)
 
-You can run the following command (in a separate terminal window) to start the Protractor tests and confirm everything is working properly.
+You can run the following command (in a separate terminal window) to start the Protractor tests and confirm everything is 
+working properly.
 
 ```bash
 yarn e2e
@@ -202,25 +201,19 @@ Shut down your `blog` application before proceeding to the next section.
 
 For each entity you want to create, you will need:
 
-* a database table;
-* a Liquibase change set;
-* a JPA entity class;
-* a Spring Data `JpaRepository` interface;
-* a Spring MVC `RestController` class;
-* an Angular model, state, component, dialog components, service; and
-* several HTML pages for each component.
+* A database table
+* A Liquibase change set
+* A JPA entity class
+* A Spring Data `JpaRepository` interface
+* A Spring MVC `RestController` class
+* An Angular model, state, component, dialog components, service
+* Several HTML pages for each component
 
-Also, you should have integration tests to verify that everything works and performance tests to verify that it runs fast. In an ideal world, you'd also have unit tests and integration tests for your Angular code.
+In addition, you should have integration tests to verify that everything works and performance tests to verify that it runs fast. In an ideal world, you'd also have unit tests and integration tests for your Angular code.
 
-The good news is JHipster can generate all of this code for you, including integration tests and performance tests. If you have entities with relationships, it will create the necessary schema to support them (with foreign keys), and the TypeScript and HTML code to manage them. You can also set up input validation to require certain fields, as well as control their length.
+The good news is JHipster can generate all of this code for you, including integration tests and performance tests. In addition, if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys), and the TypeScript and HTML code to manage them. You can also set up validation to require certain fields, as well as control their length.
 
-JHipster supports several methods of code generation. The first uses its [entity sub-generator](https://jhipster.github.io/creating-an-entity/). 
-The entity sub-generator is a command-line tool that prompts you with questions which you answer. 
-[JDL-Studio](https://jhipster.github.io/jdl-studio/) is a browser-based tool for defining your domain model with JHipster 
-Domain Language (JDL). Finally, [JHipster-UML](https://jhipster.github.io/jhipster-uml/) is an option for those that like UML. 
-Supported UML editors include [Modelio](https://www.modeliosoft.com/), [UML Designer](http://www.umldesigner.org/), 
-[GenMyModel](https://www.genmymodel.com/), and [Visual Paradigm](http://www.visual-paradigm.com/). I like the visual 
-nature of JDL-Studio, so I'll use it for this project.
+JHipster supports several methods of code generation. The first uses its [entity sub-generator](https://jhipster.github.io/creating-an-entity/). The entity sub-generator is a command-line tool that prompts you with questions which you answer. [JDL-Studio](https://jhipster.github.io/jdl-studio/) is a browser-based tool for defining your domain model with JHipster Domain Language (JDL). Finally, [JHipster-UML](https://jhipster.github.io/jhipster-uml/) is an option for those that like UML. Supported UML editors include [Modelio](https://www.modeliosoft.com/), [UML Designer](http://www.umldesigner.org/), [GenMyModel](https://www.genmymodel.com/), and [Visual Paradigm](http://www.visual-paradigm.com/). I like the visual nature of JDL-Studio, so I'll use it for this project.
 
 Below is the entity diagram and JDL code needed to generate a simple blog with blogs, entries, and tags.
 
@@ -275,7 +268,7 @@ Create a couple blogs for the existing `admin` and `user` users, as well as a fe
 
 From these screenshots, you can see that users can see each other's data, and modify it.
 
-Check your generated entities into Git.
+Now, check your generated entities into Git.
 
 ```bash
 git init
@@ -583,11 +576,7 @@ add a product and see that it has a MongoDB identifier.
 ## Build for Production
 
 A JHipster application can be deployed anywhere a Spring Boot application can be deployed. Its Angular client is
-bundled inside its JAR files
-
-JHipster ships with support for deploying to [Cloud Foundry](https://jhipster.github.io/cloudfoundry/), 
-[Heroku](https://jhipster.github.io/heroku/), [Kubernetes](https://jhipster.github.io/kubernetes/), 
-[AWS](https://jhipster.github.io/aws/), and [AWS with Boxfuse](https://jhipster.github.io/boxfuse/). 
+bundled inside its JAR files. JHipster ships with support for deploying to [Cloud Foundry](https://jhipster.github.io/cloudfoundry/), [Heroku](https://jhipster.github.io/heroku/), [Kubernetes](https://jhipster.github.io/kubernetes/), [AWS](https://jhipster.github.io/aws/), and [AWS with Boxfuse](https://jhipster.github.io/boxfuse/). 
 
 When you prepare a JHipster application for production, it's recommended to use the pre-configured "`production`" profile. 
 With Maven, you can package your application by specifying the `prod` profile when building.
@@ -612,7 +601,7 @@ Failed tests:
 Tests run: 157, Failures: 1, Errors: 0, Skipped: 0
 ```
 
-The reason this happens is shown in a stack trace in your terminal
+The reason this happens is shown in a stack trace in your terminal.
 
 ```
 Running org.jhipster.blog.web.rest.BlogResourceIntTest
@@ -674,9 +663,11 @@ MacBook Pro with 16GB of RAM and JAVA_OPTS set to `-Xmx2048m`.
 
 ## Deploy to the Cloud
 
-What good is a microservices architecture if it's not deployed to a PaaS (Platform as a Service)? PaaS providers
+What good is a microservices architecture if it's not deployed to a PaaS (Platform as a Service)?! PaaS providers
 are also known as "the cloud", and allow you to easily deploy and scale microservices as needed. Docker provides
-a mechanism to "package" your applications as an entire bundle. A Docker container includes the operating system and services needed to run your application. Often, Docker containers are used for the individual components of your architecture. For example, you'll have a Docker container for each app, as well as one for PostgreSQL, MongoDB, and
+a mechanism to "package" your applications as an entire bundle. A Docker container includes the operating system and 
+services needed to run your application. Often, Docker containers are used for the individual components of your 
+architecture. For example, you'll have a Docker container for each app, as well as one for PostgreSQL, MongoDB, and
 Elasticsearch.
 
 To complete this section, you'll need to [install Docker](https://docs.docker.com/engine/installation/).
@@ -684,12 +675,13 @@ To complete this section, you'll need to [install Docker](https://docs.docker.co
 **NOTE:** If you're not on Mac or Windows, you may need to [install Docker Compose](https://docs.docker.com/compose/install/) as well.
 
 <a name="docker-compose"></a>
+
 ### Run with Docker Compose
 
 Docker Compose is a tool for defining and running multi-container Docker applications. With Compose, you can create and 
 start all the components of your application with a single command.
 
-1. Make sure Docker is running.
+1. Make sure Docker is running
 2. Build Docker images for the `blog` and `store` applications by running the following command in both directories:
 
     ```
@@ -707,14 +699,15 @@ start all the components of your application with a single command.
     * Root directory of your microservices: `../`
     * Applications to include: `blog` and `store`
     * Applications with clustered databases: `None`
-    * Setup monitoring: `JHipster Console with ELK/Zipkin`
+    * Set up monitoring: `JHipster Console with ELK/Zipkin`
     * The admin password for the JHipster Registry: `admin`
     
     ![Generating Docker](static/generate-docker.png)
     
-4. Run `docker-compose up` to run all your services and see the logs in the same window. Add `-d` if you want to run them as a daemon.
+4. Run `docker-compose up` to run all your services and see the logs in the same window. Add `-d` if you want to run 
+them as a daemon
     
-5. Use [Kitematic](https://kitematic.com/) to view the ports and logs for the services deployed. 
+5. Use [Kitematic](https://kitematic.com/) to view the ports and logs for the services deployed
 
 ![Kitematic](static/kitematic.png)
 
@@ -726,11 +719,12 @@ To produce data for the JHipster Console to display, run some Gatling tests in t
 mvn gatling:execute
 ```
 
-These simulations can take a while (> 10m) to complete. When they're finished, you can view their lovely reports.
+These simulations can take a while (> 10m) to complete. When they're finished, you can view their pretty reports.
 
 ![Gatling Results](static/gatling-results.png)
 
-You can see the JHipster Console at <http://localhost:5601>. Navigate to Dashboards > Open to display some pre-built dashboards for the JVM, logs, metrics, microservices, and performance. The screenshots below show you what some of 
+You can see the JHipster Console at <http://localhost:5601>. Navigate to Dashboards > Open to display some pre-built 
+dashboards for the JVM, logs, metrics, microservices, and performance. The screenshots below show you what some of 
 these look like.
 
 <table style="width: 100%">
@@ -760,9 +754,9 @@ remote (e.g. a Raspberry Pi cluster, Google Cloud, AWS, OpenShift, etc.).
 
 Follow the steps below to use Kubernetes to deploy to a local cluster.
 
-1. Install [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/), [VirtualBox](https://www.virtualbox.org/wiki/Downloads), 
-and [Minikube](https://github.com/kubernetes/minikube/releases).
-2. Start Minikube using `minikube start`.
+1. Install [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/), [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+and [Minikube](https://github.com/kubernetes/minikube/releases)
+2. Start Minikube using `minikube start`
 3. To be able to work with the docker daemon, run the following command in your terminal:
 
    ```bash
@@ -831,12 +825,12 @@ git commit -m "Kubernetes"
 
 ### Deploy to Google Cloud
 
-Google Cloud is a PaaS that is built on Google's core infrastructure. It's one of the easiest providers to get Kubernetes 
-working with. Completed the steps below to deploy your hip microservices to Google Cloud. If you completed the Minikube
-section above, open a new terminal window to reset things.
+Google Cloud is a PaaS that's built on Google's core infrastructure. It's one of the easiest providers to support Kubernetes. 
+Complete the steps below to deploy your hip microservices to Google Cloud. If you completed the Minikube section above, open 
+a new terminal window to reset things.
 
-1. Create a Google Cloud project at [console.cloud.google.com](https://console.cloud.google.com/).
-2. Navigate to <https://console.cloud.google.com/kubernetes/list> to initialize the Container Engine for your project. 
+1. Create a Google Cloud project at [console.cloud.google.com](https://console.cloud.google.com/)
+2. Navigate to <https://console.cloud.google.com/kubernetes/list> to initialize the Container Engine for your project 
 3. Install [Google Cloud SDK](https://cloud.google.com/sdk/) and set project using:
   
        gcloud config set project <project-name>
@@ -857,7 +851,7 @@ and run `docker login` to push your images. The images can be run from any direc
     docker push mraible/store
     ```
 
-6. Run `kubectl` commands to deploy.
+6. Run `kubectl` commands to deploy
 
     ```bash
     kubectl apply -f registry
@@ -865,7 +859,7 @@ and run `docker login` to push your images. The images can be run from any direc
     kubectl apply -f store
     ```
 
-7. Use port-forwarding to see the registry app locally.
+7. Use port-forwarding to see the registry app locally
 
        kubectl port-forward jhipster-registry-0 8761:8761
     
@@ -876,16 +870,13 @@ and run `docker login` to push your images. The images can be run from any direc
 
        kubectl scale --replicas=3 deployment/store
        
-Did you get everything working? If so, you rock! It's not easy learning all this new stuff.
+Did you get everything working? If so, you rock! You've built a production-ready microservices scaffold for your application with JHipster!
 
 ## Source Code and Screencast
 
 The source code for this tutorial is [available on GitHub](https://github.com/oktadeveloper/jhipster-microservices-example). 
-See its [README](https://github.com/oktadeveloper/jhipster-microservices-example) if you want to clone the project
-and run it.
-
-To see a screencast of building microservices with JHipster and deploying to Google Cloud, 
-[watch this YouTube video](https://youtu.be/dgVQOYEwleA).
+See its [README](https://github.com/oktadeveloper/jhipster-microservices-example) if you simply want to clone the project
+and run it. Or, you can [watch a screencast of building microservices with JHipster and deploying to Google Cloud](https://youtu.be/dgVQOYEwleA).
 
 <div style="max-width: 560px; margin: 0 auto">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/dgVQOYEwleA?ecver=1" frameborder="0" allowfullscreen></iframe>
@@ -893,25 +884,13 @@ To see a screencast of building microservices with JHipster and deploying to Goo
 
 ## Learn More about JHipster and Microservices
 
-I hope you've enjoyed learning how JHipster can help you develop hip microservice architectures! It's a nifty project, with an 
-easy-to-use entity generator, a pretty UI and many Spring Boot best-practice patterns. The project team follows five 
-simple [policies](https://jhipster.github.io/policies/), paraphrased here:
+I hope you've enjoyed learning how JHipster can help you develop hip microservice architectures! It's a nifty project, with an easy-to-use entity generator, a pretty UI, and many Spring Boot best-practice patterns. If you have features you'd 
+like to add or if you'd like to refine existing features, you can [watch the project on GitHub](https://github.com/jhipster/generator-jhipster) and [help with its development](https://github.com/jhipster/generator-jhipster/blob/master/CONTRIBUTING.md) and support. We're always looking for help!
 
-1. The development team votes on policies.
-2. JHipster uses technologies with their default configurations as much as possible.
-3. Only add options when there is sufficient added value in the generated code.
-4. For the Java code, follow the default IntelliJ IDEA formatting and coding guidelines.
-5. Use strict versions for third-party libraries.
-
-These policies help the project maintain its sharp edge and streamline its development process. If you have features you'd 
-like to add or if you'd like to refine existing features, you can [watch the project on GitHub](https://github.com/jhipster/generator-jhipster)
-and [help with its development](https://github.com/jhipster/generator-jhipster/blob/master/CONTRIBUTING.md) and support. 
-We're always looking for help!
-
-If you have questions about JHipster, please [ask me on Twitter](https://twitter.com/mraible) or post a question to 
+If you have questions about JHipster, please [hit me up on Twitter](https://twitter.com/mraible) or post a question to 
 Stack Overflow with the ["jhipster" tag](http://stackoverflow.com/questions/tagged/jhipster).
 
-You might also find the following resources interesting:
+If you're interested in learning more about microservices, you might also find the following resources useful:
 
 * [Doing Microservices with JHipster](https://jhipster.github.io/microservices-architecture/)
 * [Build a Microservices Architecture for Microbrews](/blog/2017/06/15/build-microservices-architecture-spring-boot)
