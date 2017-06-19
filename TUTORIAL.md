@@ -1,8 +1,5 @@
 # Develop and Deploy Microservices with JHipster
 
-> Learn how to develop a microservice architecture with JHipster, Spring Boot, Angular, and MongoDB and deploy it all to the cloud using Kubernetes and Docker.
-// Why is this set up like a quote, and why are you opening with it?
-
 JHipster is one of those open-source projects you stumble upon and immediately think, "`Of course!`" It combines three 
 very successful frameworks in web development: Bootstrap, Angular, and Spring Boot. Bootstrap was one of the first dominant 
 web-component frameworks. Its largest appeal was that it only required a bit of HTML and it worked! All the efforts we 
@@ -15,14 +12,9 @@ team calls the "`Yeoman workflow`". This is an opinionated client-side stack of 
 build beautiful web applications. It takes care of providing everything needed to get working without the normal pains 
 associated with a manual setup.
 
-*Learn more about JHipster, including it's origin, at [http://jhipster.github.io](http://jhipster.github.io).*
+*Learn more about JHipster, including its origin, at [http://jhipster.github.io](http://jhipster.github.io).*
 
 This tutorial shows you how to build a microservices architecture with [JHipster 4.3.0](https://jhipster.github.io/2017/04/13/jhipster-release-4.3.0.html). You'll generate a gateway (powered by Netflix Zuul and the JHipster Gateway), a microservice (that talks to MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it to Minikube and Google Cloud using Kubernetes.
-
-// Reworked the intro, lmk what you think!
-
-{:toc}
-// what does toc indicate here?
 
 ## Install JHipster 4
 
@@ -375,7 +367,6 @@ In this section, you'll change the following:
 2. Change the list of entries to look like a blog
 
 #### Allow HTML
-// Can you confirm somehow that our blog will support h4 styling?
 
 If you enter HTML in the `content` field of a blog entry, you'll notice it's escaped on the list screen.
 
