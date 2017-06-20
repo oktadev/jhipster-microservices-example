@@ -4,10 +4,9 @@ services:
         image: blog
         environment:
             - SPRING_PROFILES_ACTIVE=prod,swagger
-            - EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+            - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
             - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
             - SPRING_DATASOURCE_URL=jdbc:postgresql://blog-postgresql:5432/blog
-            - SPRING_DATA_CASSANDRA_CONTACTPOINTS=blog-cassandra
             - JHIPSTER_SLEEP=30
             - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=blog-elasticsearch:9300
             - JHIPSTER_REGISTRY_PASSWORD=admin
@@ -25,11 +24,11 @@ services:
         image: store
         environment:
             - SPRING_PROFILES_ACTIVE=prod,swagger
-            - EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+            - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
             - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
             - SPRING_DATA_MONGODB_URI=mongodb://store-mongodb:27017
             - SPRING_DATA_MONGODB_DATABASE=store
-            - JHIPSTER_SLEEP=10
+            - JHIPSTER_SLEEP=30
             - JHIPSTER_REGISTRY_PASSWORD=admin
     store-mongodb:
         image: mongo:3.2.10
@@ -55,4 +54,3 @@ services:
         extends:
             file: jhipster-console.yml
             service: jhipster-zipkin
-

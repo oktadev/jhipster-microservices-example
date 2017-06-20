@@ -2,16 +2,16 @@
 
 > A microservice architecture created with JHipster. Uses Spring Cloud, Spring Boot, Angular, and MongoDB for a simple blog/store applications. 
 
-To run this app, you'll need to install Java 8, Maven, and [Docker](https://docs.docker.com/engine/installation/).
+To run this app, you'll need to install Java 8, [Node.js](https://nodejs.org/) 6.11, [Yarn](https://yarnpkg.com/lang/en/docs/install/), and [Docker](https://docs.docker.com/engine/installation/).
 
 **NOTE:** If you're not on Mac or Windows, you may need to [install Docker Compose](https://docs.docker.com/compose/install/) as well.
 
-1. Start the registry using `mvn` in the `registry` directory.
+1. Start the registry by running `./mvnw` in the `registry` directory.
 2. Install dependencies in the `blog` directory, build the UI, and run the Spring Boot app.
  
     ```
-    yarn && yarn webpack:dev
-    mvn
+    yarn
+    ./mvnw 
     ``` 
     
 3. Start MongoDB using Docker Compose in the `store` directory.
@@ -23,8 +23,8 @@ To run this app, you'll need to install Java 8, Maven, and [Docker](https://docs
 4. Install dependencies in the `store` directory, build the UI, and run the Spring Boot app.
  
     ```
-    yarn && yarn webpack:dev
-    mvn
+    yarn
+    ./mvnw 
     ``` 
     
 You should be able to see the `blog` app at <http://localhost:8080> and edit products (from the `store` app)
@@ -37,7 +37,7 @@ You can use Docker Compose to start everything if you don't want to start applic
 2. Build Docker images for the `blog` and `store` applications by running the following command in both directories.
 
     ```
-    mvn package -Pprod docker:build
+    ./mvnw package -Pprod docker:build
     ```
     
 3. Open a terminal, navigate to the `docker` directory of this project, and run the following command. If you have a lot
@@ -54,7 +54,7 @@ of RAM on your machine, you might want to adjust Docker's default setting (2 GB)
 To create activity in JHipster Console's charts, you run the Gatling tests in the `blog` and `store` projects.
 
 ```bash
-mvn gatling:execute
+./mvnw gatling:execute
 ```
 
 To remove all Docker containers, run the following commands or do it manually using Kitematic.
@@ -79,7 +79,7 @@ To find what's running on a port on macOS, use `sudo lsof -i :9092 # checks port
 4. Create Docker images of the `blog` and `store` applications:
 
    ```bash
-   mvn package -Pprod docker:build
+   ./mvnw package -Pprod docker:build
    ```
     
 5. Run the following commands in the `kubernetes` directory to deploy to Minikube. 

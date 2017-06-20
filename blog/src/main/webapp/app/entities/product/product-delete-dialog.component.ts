@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, JhiLanguageService } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 
 import { Product } from './product.model';
 import { ProductPopupService } from './product-popup.service';
@@ -17,12 +17,11 @@ export class ProductDeleteDialogComponent {
     product: Product;
 
     constructor(
-        private jhiLanguageService: JhiLanguageService,
         private productService: ProductService,
         public activeModal: NgbActiveModal,
-        private eventManager: EventManager
+        private alertService: JhiAlertService,
+        private eventManager: JhiEventManager
     ) {
-        this.jhiLanguageService.setLocations(['product']);
     }
 
     clear() {
@@ -37,6 +36,7 @@ export class ProductDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
+        this.alertService.success('blogApp.product.deleted', { param : id }, null);
     }
 }
 

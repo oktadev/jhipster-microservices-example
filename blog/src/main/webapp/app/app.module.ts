@@ -10,12 +10,12 @@ import { BlogAdminModule } from './admin/admin.module';
 import { BlogAccountModule } from './account/account.module';
 import { BlogEntityModule } from './entities/entity.module';
 
-import { LayoutRoutingModule } from './layouts';
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
 import {
     JhiMainComponent,
+    LayoutRoutingModule,
     NavbarComponent,
     FooterComponent,
     ProfileService,

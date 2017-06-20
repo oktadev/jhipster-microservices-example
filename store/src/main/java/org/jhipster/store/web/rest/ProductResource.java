@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +34,7 @@ public class ProductResource {
     private final Logger log = LoggerFactory.getLogger(ProductResource.class);
 
     private static final String ENTITY_NAME = "product";
-        
+
     private final ProductRepository productRepository;
 
     public ProductResource(ProductRepository productRepository) {
@@ -66,7 +67,7 @@ public class ProductResource {
      * @param product the product to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated product,
      * or with status 400 (Bad Request) if the product is not valid,
-     * or with status 500 (Internal Server Error) if the product couldnt be updated
+     * or with status 500 (Internal Server Error) if the product couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/products")
@@ -122,7 +123,6 @@ public class ProductResource {
     public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
         log.debug("REST request to delete Product : {}", id);
         productRepository.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id)).build();
     }
-
 }

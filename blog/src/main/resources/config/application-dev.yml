@@ -24,8 +24,6 @@ spring:
     profiles:
         active: dev
         include: swagger
-    autoconfigure:
-        exclude: org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration
     devtools:
         restart:
             enabled: true
@@ -55,20 +53,13 @@ spring:
             hibernate.cache.use_minimal_puts: true
             hibernate.cache.hazelcast.use_lite_member: true
     data:
-        cassandra:
-            contactPoints: localhost
-            protocolVersion: V4
-            compression: LZ4
-            keyspaceName: blog
-            repositories:
-                enabled: false
         elasticsearch:
             cluster-name:
             cluster-nodes:
             properties:
                 path:
-                  logs: target/elasticsearch/log
-                  data: target/elasticsearch/data
+                    logs: target/elasticsearch/log
+                    data: target/elasticsearch/data
     mail:
         host: localhost
         port: 25
@@ -116,8 +107,10 @@ server:
 
 jhipster:
     gateway:
-        rate-limiting: # Read the documentation in the GatewayConfiguration class before enabling.
+        rate-limiting:
             enabled: false
+            limit: 100000
+            duration-in-seconds: 3600
         authorized-microservices-endpoints: # Access Control Policy, if left empty for a route, all endpoints will be accessible
             app1: /api,/v2/api-docs # recommended dev configuration
     http:

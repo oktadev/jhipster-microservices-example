@@ -18,7 +18,7 @@ data:
       security:
         authentication:
           jwt:
-            secret: 808abc183cb9acf2ab8c4a2bc6b34335161b76e3
+            secret: fb484971f0b079f5769a89374af15e951d0398cc
   #application-prod.yml: |-
   #  configserver:
   #    status: Connected in prod

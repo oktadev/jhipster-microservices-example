@@ -3,10 +3,9 @@ package org.jhipster.store.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +23,7 @@ public class PersistentAuditEvent implements Serializable {
     @NotNull
     private String principal;
 
-    private LocalDateTime auditEventDate;
+    private Instant auditEventDate;
     @Field("event_type")
     private String auditEventType;
 
@@ -46,11 +45,11 @@ public class PersistentAuditEvent implements Serializable {
         this.principal = principal;
     }
 
-    public LocalDateTime getAuditEventDate() {
+    public Instant getAuditEventDate() {
         return auditEventDate;
     }
 
-    public void setAuditEventDate(LocalDateTime auditEventDate) {
+    public void setAuditEventDate(Instant auditEventDate) {
         this.auditEventDate = auditEventDate;
     }
 

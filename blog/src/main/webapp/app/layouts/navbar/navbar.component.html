@@ -17,8 +17,8 @@
                 </a>
             </li>
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-            <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer">
-                <a class="nav-link dropdown-toggle" routerLinkActive="active" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
+            <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
                         <i class="fa fa-th-list" aria-hidden="true"></i>
                         <span jhiTranslate="global.menu.entities.main">
@@ -28,26 +28,26 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu>
-                    <li uiSrefActive="active">
-                        <a class="dropdown-item" routerLink="blog" (click)="collapseNavbar()">
+                    <li>
+                        <a class="dropdown-item" routerLink="blog" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.blog">Blog</span>
                         </a>
                     </li>
-                    <li uiSrefActive="active">
-                        <a class="dropdown-item" routerLink="entry" (click)="collapseNavbar()">
+                    <li>
+                        <a class="dropdown-item" routerLink="entry" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.entry">Entry</span>
                         </a>
                     </li>
-                    <li uiSrefActive="active">
-                        <a class="dropdown-item" routerLink="tag" (click)="collapseNavbar()">
+                    <li>
+                        <a class="dropdown-item" routerLink="tag" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.tag">Tag</span>
                         </a>
                     </li>
-                    <li uiSrefActive="active">
-                        <a class="dropdown-item" routerLink="product" (click)="collapseNavbar()">
+                    <li>
+                        <a class="dropdown-item" routerLink="product" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.product">Product</span>
                         </a>
@@ -55,7 +55,7 @@
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>
-            <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer">
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
                     <span>
                         <i class="fa fa-user-plus" aria-hidden="true"></i>
@@ -114,7 +114,7 @@
                     </li>
                     <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
                     <li *ngIf="!inProduction">
-                        <a class="dropdown-item" href='/h2-console' target="_tab" (click)="collapseNavbar()">
+                        <a class="dropdown-item" href='./h2-console' target="_tab" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-hdd-o" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.admin.database">Database</span>
                         </a>
@@ -135,7 +135,7 @@
                     </li>
                 </ul>
             </li>
-            <li ngbDropdown class="nav-item dropdown pointer">
+            <li ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu">
                   <span *ngIf="!getImageUrl()">
                     <i class="fa fa-user" aria-hidden="true"></i>

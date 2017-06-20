@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, JhiLanguageService } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 
 import { Entry } from './entry.model';
 import { EntryPopupService } from './entry-popup.service';
@@ -17,12 +17,11 @@ export class EntryDeleteDialogComponent {
     entry: Entry;
 
     constructor(
-        private jhiLanguageService: JhiLanguageService,
         private entryService: EntryService,
         public activeModal: NgbActiveModal,
-        private eventManager: EventManager
+        private alertService: JhiAlertService,
+        private eventManager: JhiEventManager
     ) {
-        this.jhiLanguageService.setLocations(['entry']);
     }
 
     clear() {
@@ -37,6 +36,7 @@ export class EntryDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
+        this.alertService.success('blogApp.entry.deleted', { param : id }, null);
     }
 }
 

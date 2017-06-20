@@ -40,7 +40,7 @@
             ]
         }
     ],
-    "changelogDate": "20170501200520",
+    "changelogDate": "20170617000635",
     "entityTableName": "entry",
     "dto": "no",
     "pagination": "infinite-scroll",

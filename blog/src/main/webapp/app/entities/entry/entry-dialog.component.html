@@ -15,8 +15,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="blogApp.entry.title" for="field_title">Title</label>
             <input type="text" class="form-control" name="title" id="field_title"
-                [(ngModel)]="entry.title"
-            required />
+                [(ngModel)]="entry.title" required />
             <div [hidden]="!(editForm.controls.title?.dirty && editForm.controls.title?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.title?.errors?.required" jhiTranslate="entity.validation.required">

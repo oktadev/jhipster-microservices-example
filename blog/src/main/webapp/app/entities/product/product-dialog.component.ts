@@ -2,8 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
+import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Product } from './product.model';
 import { ProductPopupService } from './product-popup.service';
@@ -18,20 +19,20 @@ export class ProductDialogComponent implements OnInit {
     product: Product;
     authorities: any[];
     isSaving: boolean;
+
     constructor(
         public activeModal: NgbActiveModal,
-        private jhiLanguageService: JhiLanguageService,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private productService: ProductService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
-        this.jhiLanguageService.setLocations(['product']);
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -39,17 +40,25 @@ export class ProductDialogComponent implements OnInit {
     save() {
         this.isSaving = true;
         if (this.product.id !== undefined) {
-            this.productService.update(this.product)
-                .subscribe((res: Product) =>
-                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.subscribeToSaveResponse(
+                this.productService.update(this.product), false);
         } else {
-            this.productService.create(this.product)
-                .subscribe((res: Product) =>
-                    this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.subscribeToSaveResponse(
+                this.productService.create(this.product), true);
         }
     }
 
-    private onSaveSuccess(result: Product) {
+    private subscribeToSaveResponse(result: Observable<Product>, isCreated: boolean) {
+        result.subscribe((res: Product) =>
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+    }
+
+    private onSaveSuccess(result: Product, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'blogApp.product.created'
+            : 'blogApp.product.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'productListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

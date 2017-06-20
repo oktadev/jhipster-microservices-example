@@ -1,7 +1,7 @@
 # ===================================================================
 # Spring Boot configuration.
 #
-# This configuration will be overriden by the Spring profile you use,
+# This configuration will be overridden by the Spring profile you use,
 # for example application-dev.yml if you use the "dev" profile.
 #
 # More information on profiles: https://jhipster.github.io/profiles/
@@ -31,6 +31,7 @@ eureka:
         status-page-url-path: ${management.context-path}/info
         health-check-url-path: ${management.context-path}/health
         metadata-map:
+            zone: primary # This is needed for the load balancer
             profile: ${spring.profiles.active}
             version: ${info.project.version}
 ribbon:
