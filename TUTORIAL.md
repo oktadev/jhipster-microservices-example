@@ -892,7 +892,7 @@ Did you get everything working? If so, you rock! You've built a production-ready
 
 While creating this example, I ran into a few issues. 
 
-1. Alert translations not resolved in the gateway for microservices entities. The workaround is to open the `src/main/webapp/i18n/*/product.json` files and move the keys from `storeApp` to `blogApp`. See [issue #5960](https://github.com/jhipster/generator-jhipster/issues/5960) for more information.
+1. Alert translations not resolved in the gateway for microservice entities. The workaround is to open the `src/main/webapp/i18n/*/product.json` files and move the keys from `storeApp` to `blogApp`. See [issue #5960](https://github.com/jhipster/generator-jhipster/issues/5960) for more information.
 
 2. In production mode, new entries don't show in the list. The logs have an error like the following:
 
