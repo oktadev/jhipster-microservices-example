@@ -1,15 +1,14 @@
 package org.jhipster.blog.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 import org.jhipster.blog.domain.Entry;
-
 import org.jhipster.blog.repository.EntryRepository;
 import org.jhipster.blog.repository.search.EntrySearchRepository;
 import org.jhipster.blog.security.SecurityUtils;
 import org.jhipster.blog.web.rest.util.HeaderUtil;
 import org.jhipster.blog.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
-import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -19,22 +18,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * REST controller for managing Entry.
  */
 @RestController
 @RequestMapping("/api")
+@Transactional
 public class EntryResource {
 
     private final Logger log = LoggerFactory.getLogger(EntryResource.class);

@@ -153,12 +153,20 @@ Run the following commands in the `jhipster-microservices-example` directory.
 
 ```bash
 git clone git@github.com:jhipster/jhipster-registry.git registry
-cd registry && ./mvnw
+cd registry && yarn && ./mvnw
 ```
 
-The [JHipster Registry](https://jhipster.github.io/microservices-architecture/#jhipster-registry) is built on Spring 
-Cloud Netflix and Spring Cloud Config. Patterns provided by Spring Cloud Netflix include Service Discovery (Eureka),  
-Circuit Breaker (Hystrix), Intelligent Routing (Zuul), and Client Side Load Balancing (Ribbon). 
+The [JHipster Registry](https://jhipster.github.io/jhipster-registry/) is built on Spring Cloud Netflix and Spring Cloud Config. 
+Patterns provided by Spring Cloud Netflix include Service Discovery (Eureka), Circuit Breaker (Hystrix), Intelligent Routing (Zuul), 
+and Client Side Load Balancing (Ribbon). 
+
+In a [previous post](/blog/2017/06/15/build-microservices-architecture-spring-boot), I showed you how you can use Eureka for 
+service discovery. JHipster Registry is a Eureka server, a Spring Cloud Config server, as well as an administration server. 
+It includes dashboards to monitor and manage your JHipster applications. 
+
+JHipster Registry starts on port 8761 by default.
+
+![JHipster Registry](static/jhipster-registry.png)
 
 In a new terminal window, navigate to `jhipster-microservices-example/blog` and run `./mvnw` to start the blog application 
 and open <http://localhost:8080> in your favorite browser. The first thing you'll notice is a dapper-looking fellow 
@@ -879,6 +887,25 @@ and run `docker login` to push your images. The images can be run from any direc
        kubectl scale --replicas=3 deployment/store
        
 Did you get everything working? If so, you rock! You've built a production-ready microservices scaffold for your application with JHipster!
+
+## Issues Found
+
+While creating this example, I ran into a few issues. 
+
+1. Alert translations not resolved in the gateway for microservice entities. The workaround is to open the `src/main/webapp/i18n/*/product.json` files and move the keys from `storeApp` to `blogApp`. See [issue #5960](https://github.com/jhipster/generator-jhipster/issues/5960) for more information.
+
+2. In production mode, new entries don't show in the list. The logs have an error like the following:
+
+    ```
+    2017-06-19 18:08:06.930 ERROR 17597 --- [ XNIO-2 task-62] o.j.b.w.rest.errors.ExceptionTranslator  : 
+    An unexpected error occured: Unable to access lob stream; nested exception is org.hibernate.HibernateException: 
+    Unable to access lob stream
+    ```
+    
+    This is a [known issue with PostgreSQL](https://github.com/hipster-labs/generator-jhipster-entity-audit/issues/32).
+    Adding `@Transactional` to the `EntryResource.java` class definition solved this problem.
+
+3. When running everything in Minikube, adding new products fails. Upgrading to JHipster Registry 3.0.2 solved this issue. See [this commit](https://github.com/oktadeveloper/jhipster-microservices-example/commit/5bed36131353aea148f5fee1cd8d3c4ed2ae00a8) in `docker/jhipster-registry.yml` and `kubernetes/registry/jhipster-registry.yml` to see how to upgrade.
 
 ## Source Code and Screencast
 

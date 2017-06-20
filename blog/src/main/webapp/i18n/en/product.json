@@ -14,11 +14,7 @@
                 "title": "Product"
             },
             "name": "Name",
-            "price": "Price"
-        }
-    },
-    "storeApp": {
-        "product" : {
+            "price": "Price",
             "created": "A new Product is created with identifier {{ param }}",
             "updated": "A Product is updated with identifier {{ param }}",
             "deleted": "A Product is deleted with identifier {{ param }}"
