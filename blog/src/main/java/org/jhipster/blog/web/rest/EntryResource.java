@@ -32,6 +32,7 @@ import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
  */
 @RestController
 @RequestMapping("/api")
+@Transactional
 public class EntryResource {
 
     private final Logger log = LoggerFactory.getLogger(EntryResource.class);
@@ -99,7 +100,6 @@ public class EntryResource {
      */
     @GetMapping("/entries")
     @Timed
-    @Transactional
     public ResponseEntity<List<Entry>> getAllEntries(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Entries");
         Page<Entry> page = entryRepository.findByBlogUserLoginOrderByDateDesc(SecurityUtils.getCurrentUserLogin(), pageable);
