@@ -378,7 +378,7 @@ To:
 
 After making this change, you'll see that the HTML is no longer escaped.
 
-[HTML in entries](static/entries-with-html.png)
+![HTML in entries](static/entries-with-html.png)
 
 #### Improve the layout
 
@@ -427,8 +427,16 @@ git commit -m "UI enhancements"
 ## Create a Microservice
 
 To generate a `store` microservice, open a terminal window and navigate to the `jhipster-microservices-example` directory.
-Create a `store` directory and run `jhipster` in it. Use the following settings to generate a microservice that uses 
-MongoDB for its database.
+Create a `store` directory and run `jhipster` in it. 
+
+```bash
+cd ~/jhipster-microservices-example
+mkdir store
+cd store
+jhipster
+```
+
+Use the following settings to generate a microservice that uses MongoDB for its database.
 
 * Application type: `Microservice application`
 * Base name of the application: `store`
