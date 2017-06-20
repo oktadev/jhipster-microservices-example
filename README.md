@@ -54,7 +54,7 @@ of RAM on your machine, you might want to adjust Docker's default setting (2 GB)
 To create activity in JHipster Console's charts, you run the Gatling tests in the `blog` and `store` projects.
 
 ```bash
-/.mvnw gatling:execute
+./mvnw gatling:execute
 ```
 
 To remove all Docker containers, run the following commands or do it manually using Kitematic.
