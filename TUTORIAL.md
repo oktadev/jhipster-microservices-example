@@ -278,7 +278,7 @@ git commit -m "Entities generated"
 
 ### Add Business Logic
 
-TIP: To configure an IDE with your JHipster project, see [Configuring your IDE](https://jhipster.github.io/configuring-ide/). 
+**TIP:** To configure an IDE with your JHipster project, see [Configuring your IDE](https://jhipster.github.io/configuring-ide/). 
 Instructions exist for Eclipse, IntelliJ IDEA, Visual Studio Code, and NetBeans.
 
 To add more security around blogs and entries, open `BlogResource.java` and find the `getAllBlogs()` method. Change the 
