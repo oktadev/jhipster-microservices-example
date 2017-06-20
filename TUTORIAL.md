@@ -160,7 +160,7 @@ The [JHipster Registry](https://jhipster.github.io/microservices-architecture/#j
 Cloud Netflix and Spring Cloud Config. Patterns provided by Spring Cloud Netflix include Service Discovery (Eureka),  
 Circuit Breaker (Hystrix), Intelligent Routing (Zuul), and Client Side Load Balancing (Ribbon). 
 
-In a new terminal window, navigate to `/jhipster-microservices-example/blog` and run `./mvnw` to start the blog application 
+In a new terminal window, navigate to `jhipster-microservices-example/blog` and run `./mvnw` to start the blog application 
 and open <http://localhost:8080> in your favorite browser. The first thing you'll notice is a dapper-looking fellow 
 explaining how you can sign in or register.
 
