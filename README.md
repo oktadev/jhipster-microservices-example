@@ -6,7 +6,7 @@ To run this app, you'll need to install Java 8, [Node.js](https://nodejs.org/) 6
 
 **NOTE:** If you're not on Mac or Windows, you may need to [install Docker Compose](https://docs.docker.com/compose/install/) as well.
 
-1. Start the registry by running `./mvnw` in the `registry` directory.
+1. Start the registry by running `./mvnw -Pprod` in the `registry` directory.
 2. Install dependencies in the `blog` directory, build the UI, and run the Spring Boot app.
  
     ```
