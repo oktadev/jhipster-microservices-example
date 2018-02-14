@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: blog
+  namespace: default
 spec:
   replicas: 1
   template:
@@ -23,9 +24,41 @@ spec:
             secretKeyRef:
               name: registry-secret
               key: registry-admin-password
+        - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+          value: http://admin:${jhipster.registry.password}@jhipster-registry.default.svc.cluster.local:8761/eureka/
         - name: SPRING_DATASOURCE_URL
           value: jdbc:postgresql://blog-postgresql.default.svc.cluster.local:5432/blog
         - name: SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES
           value: blog-elasticsearch.default.svc.cluster.local:9300
+        - name: JHIPSTER_METRICS_LOGS_ENABLED
+          value: 'true'
+        - name: JHIPSTER_LOGGING_LOGSTASH_ENABLED
+          value: 'true'
+        - name: JHIPSTER_LOGGING_LOGSTASH_HOST
+          value: jhipster-logstash
+        - name: SPRING_ZIPKIN_ENABLED
+          value: "true"
+        - name: SPRING_ZIPKIN_BASE_URL
+          value: http://jhipster-zipkin
+        - name: JAVA_OPTS
+          value: " -Xmx256m -Xms256m"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
         ports:
-        - containerPort: 8080
+        - name: web
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /management/health
+            port: web
+        livenessProbe:
+          httpGet:
+            path: /management/health
+            port: web
+          initialDelaySeconds: 180
+

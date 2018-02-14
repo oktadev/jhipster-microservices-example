@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: blog-postgresql
+  namespace: default
 spec:
   replicas: 1
   template:
@@ -14,7 +15,7 @@ spec:
         emptyDir: {}
       containers:
       - name: postgres
-        image: postgres:9.6.2
+        image: postgres:9.6.5
         env:
         - name: POSTGRES_USER
           value: blog
@@ -30,6 +31,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: blog-postgresql
+  namespace: default
 spec:
   selector:
     app: blog-postgresql

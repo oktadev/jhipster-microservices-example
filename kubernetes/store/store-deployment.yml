@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: store
+  namespace: default
 spec:
   replicas: 1
   template:
@@ -23,9 +24,41 @@ spec:
             secretKeyRef:
               name: registry-secret
               key: registry-admin-password
+        - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+          value: http://admin:${jhipster.registry.password}@jhipster-registry.default.svc.cluster.local:8761/eureka/
         - name: SPRING_DATA_MONGODB_URI
           value: mongodb://store-mongodb.default.svc.cluster.local:27017
         - name: SPRING_DATA_MONGODB_DATABASE
           value: store
+        - name: JHIPSTER_METRICS_LOGS_ENABLED
+          value: 'true'
+        - name: JHIPSTER_LOGGING_LOGSTASH_ENABLED
+          value: 'true'
+        - name: JHIPSTER_LOGGING_LOGSTASH_HOST
+          value: jhipster-logstash
+        - name: SPRING_ZIPKIN_ENABLED
+          value: "true"
+        - name: SPRING_ZIPKIN_BASE_URL
+          value: http://jhipster-zipkin
+        - name: JAVA_OPTS
+          value: " -Xmx256m -Xms256m"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
         ports:
-        - containerPort: 8081
+        - name: web
+          containerPort: 8081
+        readinessProbe:
+          httpGet:
+            path: /management/health
+            port: web
+        livenessProbe:
+          httpGet:
+            path: /management/health
+            port: web
+          initialDelaySeconds: 180
+

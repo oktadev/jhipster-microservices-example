@@ -9,6 +9,7 @@
     "jwtSecretKey": "fb484971f0b079f5769a89374af15e951d0398cc",
     "dockerRepositoryName": "mraible",
     "dockerPushCommand": "docker push",
-    "kubernetesNamespace": "default"
+    "kubernetesNamespace": "default",
+    "kubernetesServiceType": "NodePort"
   }
 }
