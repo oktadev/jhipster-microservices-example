@@ -81,8 +81,23 @@ To find what's running on a port on macOS, use `sudo lsof -i :9092 # checks port
    ```bash
    ./mvnw package -Pprod docker:build
    ```
-    
-5. Run the following commands in the `kubernetes` directory to deploy to Minikube. 
+
+5. Navigate to the `kubernetes` directory in your terminal and re-generate the files so they match your Docker repository name.
+
+   ```
+   jhipster kubernetes
+   ```
+   
+   Follow the instructions for tagging and pushing the Docker images.
+
+   ```bash
+   docker image tag blog mraible/blog
+   docker push mraible/blog
+   docker image tag store mraible/store
+   docker push mraible/store
+   ```
+   
+6. Use `kubectl` to deploy to Minikube. 
 
     ```
     kubectl apply -f registry
