@@ -91,10 +91,10 @@ To find what's running on a port on macOS, use `sudo lsof -i :9092 # checks port
    Follow the instructions for tagging and pushing the Docker images.
 
    ```bash
-   docker image tag blog mraible/blog
-   docker push mraible/blog
-   docker image tag store mraible/store
-   docker push mraible/store
+   docker image tag blog {yourRepoName}/blog
+   docker push {yourRepoName}/blog
+   docker image tag store {yourRepoName}/store
+   docker push {yourRepoName}/store
    ```
    
 6. Use `kubectl` to deploy to Minikube. 
