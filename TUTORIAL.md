@@ -701,7 +701,7 @@ start all the components of your application with a single command.
 2. Build Docker images for the `blog` and `store` applications by running the following command in both directories:
 
     ```
-    ./mvnw package -Pprod docker:build
+    ./mvnw package -Pprod dockerfile:build
     ```
     
 3. Using your terminal, navigate to the root directory of your project, and create a `docker` directory. Then run the 
