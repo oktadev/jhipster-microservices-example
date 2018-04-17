@@ -2,9 +2,27 @@
 
 > A microservice architecture created with JHipster. Uses Spring Cloud, Spring Boot, Angular, and MongoDB for a simple blog/store applications. 
 
-To run this app, you'll need to install Java 8, [Node.js](https://nodejs.org/) 6.11, [Yarn](https://yarnpkg.com/lang/en/docs/install/), and [Docker](https://docs.docker.com/engine/installation/).
+Please read [Develop and Deploy Microservices with JHipster](https://developer.okta.com/blog/2017/06/20/develop-microservices-with-jhipster) to see how this example was created.
+
+**Prerequisites:** [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html), [Node.js](https://nodejs.org/) 6.11, [Yarn](https://yarnpkg.com/lang/en/docs/install/), and [Docker](https://docs.docker.com/engine/installation/).
 
 **NOTE:** If you're not on Mac or Windows, you may need to [install Docker Compose](https://docs.docker.com/compose/install/) as well.
+
+> [Okta](https://developer.okta.com/) has Authentication and User Management APIs that reduce development time with instant-on, scalable user infrastructure. Okta's intuitive API and expert support make it easy for developers to authenticate, manage and secure users and roles in any application.
+
+* [Getting Started](#getting-started)
+* [Links](#links)
+* [Help](#help)
+* [License](#license)
+
+## Getting Started
+
+To install this example application, run the following commands:
+
+```bash
+git clone https://github.com/oktadeveloper/jhipster-microservices-example.git
+cd jhipster-microservices-example
+```
 
 1. Start the registry by running `./mvnw -Pprod` in the `registry` directory.
 2. Install dependencies in the `blog` directory, build the UI, and run the Spring Boot app.
@@ -29,7 +47,7 @@ To run this app, you'll need to install Java 8, [Node.js](https://nodejs.org/) 6
     
 You should be able to see the `blog` app at <http://localhost:8080> and edit products (from the `store` app)
 
-## Run with Docker Compose
+### Run with Docker Compose
 
 You can use Docker Compose to start everything if you don't want to start applications manually with Maven.
 
@@ -66,7 +84,7 @@ docker rm $(docker ps -a -q)
 
 To find what's running on a port on macOS, use `sudo lsof -i :9092 # checks port 9092`.
 
-## Run with Kubernetes and Minikube
+### Run with Kubernetes and Minikube
 
 1. Install [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/), [VirtualBox](https://www.virtualbox.org/wiki/Downloads), and [Minikube](https://github.com/kubernetes/minikube/releases).
 2. Start Minikube using `minikube start`.
@@ -119,7 +137,7 @@ To stop Minikube, run `minikube stop`.
 **NOTE:** If you run `minikube delete` and have trouble running `minikube start` afterward, run `rm -rf ~/.minikube`. 
 See [this issue](https://github.com/kubernetes/minikube/issues/290) for more information.
 
-## Google Cloud
+### Google Cloud
 
 1. Create a Google Cloud project at [console.cloud.google.com](https://console.cloud.google.com/).
 2. Navigate to <https://console.cloud.google.com/kubernetes/list> to initialize the Container Engine for your project. 
@@ -163,6 +181,18 @@ and run `docker login` to push your images. The images can be run from any direc
     
 To see a screencast of this process, [watch this YouTube video](https://youtu.be/dgVQOYEwleA).
 
-## AWS
+### AWS
 
 If you know how to deploy this architecture to AWS, I'd love to hear about it! I [tried in anger](https://groups.google.com/forum/#!msg/jhipster-dev/NNA3TScENVE/WmbG2Qt_AwAJ), but ultimately failed.
+
+## Links
+
+This example uses [JHipster](https://www.jhipster.tech), and awesome project that allows you to generate a microservices architecture with [Spring Boot](https://projects.spring.io/spring-boot/). See [Develop a Microservices Architecture with OAuth 2.0 and JHipster](https://developer.okta.com/blog/2018/03/01/develop-microservices-jhipster-oauth) for an example that uses OAuth and Okta.
+
+## Help
+
+Please post any questions as comments on the [blog post](https://developer.okta.com/blog/2018/03/01/develop-microservices-jhipster-oauth), or visit our [Okta Developer Forums](https://devforum.okta.com/). You can also email developers@okta.com if would like to create a support ticket.
+
+## License
+
+Apache 2.0, see [LICENSE](LICENSE).
