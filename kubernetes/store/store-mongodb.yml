@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: store-mongodb
+  namespace: default
 spec:
   replicas: 1
   template:
@@ -14,7 +15,7 @@ spec:
         emptyDir: {}
       containers:
       - name: mongo
-        image: mongo:3.2.10
+        image: mongo:3.4.10
         ports:
         - containerPort: 27017
         volumeMounts:
@@ -25,6 +26,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: store-mongodb
+  namespace: default
 spec:
   selector:
     app: store-mongodb

@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: blog-elasticsearch
+  namespace: default
 spec:
   replicas: 1
   template:
@@ -14,7 +15,7 @@ spec:
         emptyDir: {}
       containers:
       - name: elasticsearch
-        image: elasticsearch:2.4.1
+        image: elasticsearch:2.4.6
         ports:
         - containerPort: 9200
           name: http
@@ -30,6 +31,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: blog-elasticsearch
+  namespace: default
 spec:
   selector:
     app: blog-elasticsearch
